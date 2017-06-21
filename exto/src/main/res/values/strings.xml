@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Exto</string>
+    <string name="error.no_internet">No internet connection.</string>
+    <string name="error.unknown_server_error">Error occurred. Please try again</string>
+</resources>

@@ -1,0 +1,57 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+apply plugin: 'com.jfrog.bintray'
+
+ext.supportLibs_version = '25.3.1'
+ext.rx_version = '1.2.1'
+
+buildscript {
+    ext.kotlin_version = '1.1.2-5'
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    kapt {
+        generateStubs = true
+    }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "io.reactivex:rxandroid:$rx_version"
+    compile "com.android.support:appcompat-v7:$supportLibs_version"
+    compile "com.android.support:design:$supportLibs_version"
+    compile "com.github.bumptech.glide:glide:3.7.0"
+    compile 'com.jakewharton.timber:timber:4.1.2'
+
+    kapt "com.android.databinding:compiler:2.3.3"
+}
