@@ -1,5 +1,6 @@
 package com.github.spazzze.exto.extensions
 
+import android.content.Context
 import com.github.spazzze.exto.errors.NoNetworkException
 import rx.Observable
 import rx.Observer
@@ -14,10 +15,10 @@ import rx.subscriptions.CompositeSubscription
  * @date 28.01.2017
  */
 
-fun <T> Single<T>.withConnectionStatusCheck(): Single<T> = Single.just(isNetworkAvailable())
+fun <T> Single<T>.withConnectionStatusCheck(context: Context): Single<T> = Single.just(context.isNetworkAvailable())
         .flatMap { if (it) this else Single.error(NoNetworkException()) }
 
-fun <T> Observable<T>.withConnectionStatusCheck(): Observable<T> = Observable.just(isNetworkAvailable())
+fun <T> Observable<T>.withConnectionStatusCheck(context: Context): Observable<T> = Observable.just(context.isNetworkAvailable())
         .flatMap { if (it) this else Observable.error(NoNetworkException()) }
 
 fun <T> Observable<T>.runOnIoObsOnMain(): Observable<T> = this

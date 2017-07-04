@@ -14,7 +14,6 @@ import android.support.annotation.DimenRes
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
-import com.github.spazzze.exto.common.App
 import java.io.FileNotFoundException
 
 
@@ -56,10 +55,9 @@ fun Context.getThemeResource(resourceId: Int) = TypedValue().run {
     data
 }
 
-fun isNetworkAvailable(context: Context = App.ctx) =
-        (context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
-                ?.activeNetworkInfo?.isConnectedOrConnecting
-                ?: false
+fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
+        ?.activeNetworkInfo?.isConnectedOrConnecting
+        ?: false
 
 @Throws(FileNotFoundException::class)
 fun ContentResolver.getResizedBitmap(imageUri: Uri, maxImagePixelSize: Int): Bitmap {

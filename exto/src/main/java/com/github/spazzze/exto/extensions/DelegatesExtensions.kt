@@ -1,7 +1,6 @@
 package com.github.spazzze.exto.extensions
 
 import android.content.Context
-import com.github.spazzze.exto.common.App
 import kotlin.properties.Delegates
 
 /**
@@ -12,5 +11,5 @@ import kotlin.properties.Delegates
 @Suppress("UNUSED")
 fun <T> Delegates.preference(key: String,
                              default: T,
-                             prefsName: String = App.ctx.packageName,
-                             context: Context = App.ctx) = Preference(key, default, prefsName, context)
+                             context: Context,
+                             prefsName: String? = null) = Preference(key, default, prefsName ?: context.packageName, context)

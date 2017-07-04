@@ -9,11 +9,6 @@ import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.BitmapResource
 
-/**
- * @author Space
- * @date 15.01.2017
- */
-
 class CropCircleTransformation private constructor(private val bitmapPool: BitmapPool) : Transformation<Bitmap> {
 
     private var borderWidth: Float = 0.0f
