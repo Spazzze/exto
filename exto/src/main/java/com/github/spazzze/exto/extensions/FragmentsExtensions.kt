@@ -95,5 +95,41 @@ inline fun <reified T : Any> Fragment.readArgs(key: String, default: T) = argume
     }
 } as? T ?: default
 
+@Throws(IOException::class)
+inline fun <reified T : Any> Fragment.readArgsWithCheck(key: String, default: T, handleBadArgs: () -> Unit) = arguments?.run {
+    when (default) {
+        is Boolean -> getBoolean(key, default)
+        is Byte -> getByte(key, default)
+        is Char -> getChar(key, default)
+        is Short -> getShort(key, default)
+        is Int -> getInt(key, default)
+        is Long -> getLong(key, default)
+        is Float -> getFloat(key, default)
+        is Double -> getDouble(key, default)
+        is String -> getString(key, default)
+        is CharSequence -> getCharSequence(key, default)
+        is Parcelable -> getParcelable(key) ?: default
+        is Serializable -> getSerializable(key) ?: default
+        is BooleanArray -> getBooleanArray(key) ?: default
+        is ByteArray -> getByteArray(key) ?: default
+        is CharArray -> getCharArray(key) ?: default
+        is DoubleArray -> getDoubleArray(key) ?: default
+        is FloatArray -> getFloatArray(key) ?: default
+        is IntArray -> getIntArray(key) ?: default
+        is LongArray -> getLongArray(key) ?: default
+        is Array<*> -> {
+            when {
+                default.isArrayOf<Parcelable>() -> getParcelableArray(key) ?: default
+                default.isArrayOf<CharSequence>() -> getCharSequenceArray(key) ?: default
+                default.isArrayOf<String>() -> getStringArray(key) ?: default
+                else -> handleBadArgs()
+            }
+        }
+        is ShortArray -> getShortArray(key) ?: default
+        is Bundle -> getBundle(key) ?: default
+        else -> handleBadArgs()
+    }
+} as? T ?: default.apply { if (this == default) handleBadArgs() }
+
 inline fun <reified T : Parcelable> Fragment.readArgs(key: String, handleBadArgs: () -> Unit) = arguments?.getParcelable<T>(key)
         ?: handleBadArgs()
