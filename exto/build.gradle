@@ -91,6 +91,7 @@ dependencies {
     compile "com.android.support:design:$supportLibs_version"
     compile "com.github.bumptech.glide:glide:3.7.0"
     compile 'com.jakewharton.timber:timber:4.1.2'
+    compile 'org.funktionale:funktionale:0.9.7'
 
     kapt "com.android.databinding:compiler:2.3.3"
 }
@@ -116,7 +117,7 @@ task androidSourcesJar(type: Jar) {
 }
 
 artifacts {
-//    archives androidSourcesJar
+    archives androidSourcesJar
 //    archives androidJavadocsJar
 }
 
