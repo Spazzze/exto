@@ -94,3 +94,6 @@ inline fun <reified T : Any> Fragment.readArgs(key: String, default: T) = argume
         else -> throw IOException("Unsupported bundle component (${default.javaClass})")
     }
 } as? T ?: default
+
+inline fun <reified T : Parcelable> Fragment.readArgs(key: String, handleBadArgs: () -> Unit) = arguments?.getParcelable<T>(key)
+        ?: handleBadArgs()

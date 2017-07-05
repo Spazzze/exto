@@ -116,7 +116,7 @@ task androidSourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives androidSourcesJar
+//    archives androidSourcesJar
 //    archives androidJavadocsJar
 }
 
