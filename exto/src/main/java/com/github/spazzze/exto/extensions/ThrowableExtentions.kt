@@ -6,6 +6,7 @@ import com.github.spazzze.exto.errors.NoNetworkException
 import com.github.spazzze.exto.errors.NotAuthenticatedException
 import com.github.spazzze.exto.errors.NotFoundException
 import com.github.spazzze.exto.errors.WrongCredentialsError
+import timber.log.Timber
 import java.net.SocketTimeoutException
 
 /**
@@ -27,6 +28,6 @@ fun Throwable.reportToDeveloper(clazz: String) {
         this is NotAuthenticatedException -> Log.e("DEV", "$msg NotAuthenticatedException")
         this is NoNetworkException -> Log.e("DEV", "$msg NoNetworkException")
         this is SocketTimeoutException -> Log.e("DEV", "$msg SocketTimeoutException")
-        else -> Log.e("DEV", "$msg $this")
+        else -> Timber.e("DEV", "$msg $this")
     }
 }

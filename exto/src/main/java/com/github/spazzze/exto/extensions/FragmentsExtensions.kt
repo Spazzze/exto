@@ -10,6 +10,8 @@ import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import org.funktionale.option.Option
+import org.funktionale.option.toOption
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -40,27 +42,29 @@ inline fun <T : Fragment> FragmentManager.replaceFragment(containerId: Int, addT
                                                           tag: String?, createNewFragment: () -> T) =
         when (findFragmentByTag(tag)) {
             null -> add(createNewFragment(), containerId, addToBackStack, tag)
-            else -> if (!popBackStackImmediate(tag, 0)) clearBackStack() else Unit
+            else -> if (popBackStackImmediate(tag, 0)) true else clearBackStack()
         }
 
 @SuppressLint("CommitTransaction")
-fun <T : Fragment> FragmentManager.add(fragment: T, containerId: Int, addToBackStack: Boolean, tag: String?): Unit =
+fun <T : Fragment> FragmentManager.add(fragment: T, containerId: Int, addToBackStack: Boolean, tag: String?): Boolean =
         with(beginTransaction()) {
             replace(containerId, fragment, tag)
             if (addToBackStack) addToBackStack(tag)
             commitAllowingStateLoss()
+            return true
         }
 
-fun FragmentManager.clearBackStack() {
+fun FragmentManager.clearBackStack(): Boolean {
     while (backStackEntryCount != 0) {
         popBackStackImmediate()
     }
+    return true
 }
 
 fun FragmentActivity.isBackStackEmpty() = supportFragmentManager.backStackEntryCount < 1
 
 @Throws(IOException::class)
-inline fun <reified T : Any> Fragment.readArgs(key: String, default: T) = arguments?.run {
+inline fun <reified T : Any> Fragment.readArgs(key: String, default: T): T = arguments?.run {
     when (default) {
         is Boolean -> getBoolean(key, default)
         is Byte -> getByte(key, default)
@@ -96,7 +100,7 @@ inline fun <reified T : Any> Fragment.readArgs(key: String, default: T) = argume
 } as? T ?: default
 
 @Throws(IOException::class)
-inline fun <reified T : Any> Fragment.readArgsWithCheck(key: String, default: T, handleBadArgs: () -> Unit) = arguments?.run {
+inline fun <reified T : Any> Fragment.readArgs(key: String, default: T, handleBadArgs: () -> Unit): T = arguments?.run {
     when (default) {
         is Boolean -> getBoolean(key, default)
         is Byte -> getByte(key, default)
@@ -131,5 +135,5 @@ inline fun <reified T : Any> Fragment.readArgsWithCheck(key: String, default: T,
     }
 } as? T ?: default.apply { if (this == default) handleBadArgs() }
 
-inline fun <reified T : Parcelable> Fragment.readArgs(key: String, handleBadArgs: () -> Unit) = arguments?.getParcelable<T>(key)
-        ?: handleBadArgs()
+inline fun <reified T : Parcelable> Fragment.readArgs(key: String, handleBadArgs: () -> Unit): Option<T> =
+        arguments?.getParcelable<T>(key)?.toOption() ?: Option.None.apply { handleBadArgs() }

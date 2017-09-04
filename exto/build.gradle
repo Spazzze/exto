@@ -40,11 +40,16 @@ ext {
     }
 }
 
+ext.gradle_version = '2.3.3'
 ext.supportLibs_version = '25.3.1'
-ext.rx_version = '1.2.1'
+ext.rxandroid_version = '2.0.1'
+ext.rxjava_version = '2.1.3'
+ext.glide_version = '3.7.0'
+ext.timber_version = '4.5.1'
+ext.funktionale_version = '1.1'
 
 buildscript {
-    ext.kotlin_version = '1.1.3-2'
+    ext.kotlin_version = '1.1.4-3'
     repositories {
         mavenCentral()
         jcenter()
@@ -63,9 +68,7 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -86,17 +89,88 @@ android {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "io.reactivex:rxandroid:$rx_version"
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
     compile "com.android.support:appcompat-v7:$supportLibs_version"
     compile "com.android.support:design:$supportLibs_version"
-    compile "com.github.bumptech.glide:glide:3.7.0"
-    compile 'com.jakewharton.timber:timber:4.1.2'
-
-    kapt "com.android.databinding:compiler:2.3.3"
+    compile "com.github.bumptech.glide:glide:$glide_version"
+    compile "com.jakewharton.timber:timber:$timber_version"
+    compile "org.funktionale:funktionale-option:$funktionale_version"
+    kapt "com.android.databinding:compiler:$gradle_version"
 }
 
-apply from: 'https://gist.githubusercontent.com/Spazzze/d57bc58910f9bd6ca75753b7e8a7c15f/raw/b0717c06981fc64457c42f002dd708676f23c7f9/installv1.gradle'
-apply from: 'https://gist.githubusercontent.com/Spazzze/763828f7117e13c8ab7e00f1986c6187/raw/4acfeccb64e4a79ab6179094295a009edf4f6255/bintrayv1.gradle'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = publishedGroupId                               // Maven Group ID for the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name libraryName
+                description libraryDescription
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name licenseName
+                        url licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+            }
+        }
+    }
+}
+
+apply plugin: 'com.jfrog.bintray'
+
+version = libraryVersion
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.password")
+                //Optional. The passphrase for GPG signing'
+            }
+        }
+    }
+}
 
 task androidJavadocs(type: Javadoc) {
     failOnError = false
@@ -116,7 +190,7 @@ task androidSourcesJar(type: Jar) {
 }
 
 artifacts {
-//    archives androidSourcesJar
+    archives androidSourcesJar
 //    archives androidJavadocsJar
 }
 

@@ -1,11 +1,9 @@
 package com.github.spazzze.exto.extensions
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Handler
@@ -14,7 +12,6 @@ import android.support.annotation.DimenRes
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
-import java.io.FileNotFoundException
 
 
 /**
@@ -28,15 +25,17 @@ fun Handler.just(action: () -> Unit, delay: Long) {
     postDelayed({ action() }, delay)
 }
 
+@Throws(Resources.NotFoundException::class)
 fun Context.getDimensionValue(@DimenRes dimenRes: Int) = with(resources) { (getDimension(dimenRes) / displayMetrics.density).toInt() }
 
 fun Context.getDisplayMetrics(): DisplayMetrics = DisplayMetrics()
-        .apply { (getSystemService(WINDOW_SERVICE) as WindowManager).defaultDisplay.getMetrics(this) }
+        .apply { (getSystemService(WINDOW_SERVICE) as? WindowManager)?.defaultDisplay?.getMetrics(this) }
 
 fun Context.showAppSettings() {
     startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
 }
 
+@Throws(Resources.NotFoundException::class)
 fun Context.getAppBarSize(): Float {
     val styledAttributes = theme.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
     val appBarSize = styledAttributes.getDimension(0, 0f)
@@ -58,14 +57,3 @@ fun Context.getThemeResource(resourceId: Int) = TypedValue().run {
 fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
         ?.activeNetworkInfo?.isConnectedOrConnecting
         ?: false
-
-@Throws(FileNotFoundException::class)
-fun ContentResolver.getResizedBitmap(imageUri: Uri, maxImagePixelSize: Int): Bitmap {
-    val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-    openInputStream(imageUri).use { BitmapFactory.decodeStream(it, null, options) }
-    options.apply {
-        inJustDecodeBounds = false
-        if (maxImagePixelSize > 0) inSampleSize = Math.max(outWidth, outHeight) / maxImagePixelSize
-    }
-    return openInputStream(imageUri).use { BitmapFactory.decodeStream(it, null, options) }
-}

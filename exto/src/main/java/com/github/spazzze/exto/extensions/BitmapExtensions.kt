@@ -1,13 +1,17 @@
 package com.github.spazzze.exto.extensions
 
+import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.Bitmap.*
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.Uri
 import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
 
 /**
@@ -60,4 +64,15 @@ fun Bitmap.resize(size: Int) = (width.toFloat() / height.toFloat()).let {
 
 fun Bitmap.compressInto(format: CompressFormat, quality: Int, file: File) {
     FileOutputStream(file).use { compress(format, quality, it) }
+}
+
+@Throws(FileNotFoundException::class)
+fun ContentResolver.getResizedBitmap(imageUri: Uri, maxImagePixelSize: Int): Bitmap {
+    val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+    openInputStream(imageUri).use { BitmapFactory.decodeStream(it, null, options) }
+    options.apply {
+        inJustDecodeBounds = false
+        if (maxImagePixelSize > 0) inSampleSize = Math.max(outWidth, outHeight) / maxImagePixelSize
+    }
+    return openInputStream(imageUri).use { BitmapFactory.decodeStream(it, null, options) }
 }
