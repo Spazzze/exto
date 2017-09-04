@@ -7,6 +7,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 
 /**
  * @author Space
@@ -59,8 +61,18 @@ fun <T> Maybe<T>.runOnIoObsOnIo(): Maybe<T> = this
 
 inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -> Unit) = object : Observer<T> {
 
-    override fun onSubscribe(d: Disposable) = Maybe.just(1)
-            .subscribe(reportingMaybeObserver { })
+    override fun onSubscribe(d: Disposable) = Unit
+
+    override fun onNext(t: T) = onNextAction(t)
+
+    override fun onComplete() = Unit
+
+    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass")
+}
+
+inline fun <T, reified A : Any> A.silentSubscriber(crossinline onNextAction: (T) -> Unit) = object : Subscriber<T> {
+
+    override fun onSubscribe(s: Subscription) = Unit
 
     override fun onNext(t: T) = onNextAction(t)
 
@@ -107,6 +119,35 @@ inline fun <T, reified A : Any> A.reportingObserver(crossinline onNextAction: (T
                                                     crossinline onErrorAction: (Throwable) -> Unit) = object : Observer<T> {
 
     override fun onSubscribe(d: Disposable) = Unit
+
+    override fun onNext(t: T) = onNextAction(t)
+
+    override fun onComplete() = Unit
+
+    override fun onError(e: Throwable) {
+        e.reportToDeveloper("$javaClass")
+        onErrorAction(e)
+    }
+}
+
+inline fun <T, reified A : Any> A.reportingSubscriber(crossinline onErrorAction: (Throwable) -> Unit) = object : Subscriber<T> {
+
+    override fun onSubscribe(s: Subscription) = Unit
+
+    override fun onNext(t: T) = Unit
+
+    override fun onComplete() = Unit
+
+    override fun onError(e: Throwable) {
+        e.reportToDeveloper("$javaClass")
+        onErrorAction(e)
+    }
+}
+
+inline fun <T, reified A : Any> A.reportingSubscriber(crossinline onNextAction: (T) -> Unit,
+                                                      crossinline onErrorAction: (Throwable) -> Unit) = object : Subscriber<T> {
+
+    override fun onSubscribe(s: Subscription) = Unit
 
     override fun onNext(t: T) = onNextAction(t)
 
