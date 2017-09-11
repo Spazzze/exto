@@ -29,15 +29,12 @@ fun <T> Single<T>.runOnIoObsOnIo(): Single<T> = this
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())
 
-inline fun <reified T> Single<T>.subscribeSilent(crossinline onNextAction: (T) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}") })
+fun <T> Single<T>.subscribeSilent(onNextAction: (T) -> Unit = {}) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass") })
 
-inline fun <reified T> Single<T>.subscribeReporting(crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ Unit }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
-
-inline fun <reified T> Single<T>.subscribeReporting(crossinline onNextAction: (T) -> Unit,
-                                                    crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
+fun <T> Single<T>.subscribeReporting(onNextAction: (T) -> Unit = {},
+                                     onErrorAction: (Throwable) -> Unit) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass"); onErrorAction(it) })
 
 //endregion :::::::::::::::::::::::::::::::::: Single
 
@@ -54,15 +51,12 @@ fun <T> Maybe<T>.runOnIoObsOnIo(): Maybe<T> = this
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())
 
-inline fun <reified T> Maybe<T>.subscribeSilent(crossinline onNextAction: (T) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}") })
+fun <T> Maybe<T>.subscribeSilent(onNextAction: (T) -> Unit = {}) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass") })
 
-inline fun <reified T> Maybe<T>.subscribeReporting(crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ Unit }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
-
-inline fun <reified T> Maybe<T>.subscribeReporting(crossinline onNextAction: (T) -> Unit,
-                                                   crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
+fun <T> Maybe<T>.subscribeReporting(onNextAction: (T) -> Unit = {},
+                                    onErrorAction: (Throwable) -> Unit) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass"); onErrorAction(it) })
 
 //endregion :::::::::::::::::::::::::::::::::: Maybe
 
@@ -79,15 +73,12 @@ fun <T> Observable<T>.runOnIoObsOnIo(): Observable<T> = this
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())
 
-inline fun <reified T> Observable<T>.subscribeSilent(crossinline onNextAction: (T) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}") })
+fun <T> Observable<T>.subscribeSilent(onNextAction: (T) -> Unit = {}) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass") })
 
-inline fun <reified T> Observable<T>.subscribeReporting(crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ Unit }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
-
-inline fun <reified T> Observable<T>.subscribeReporting(crossinline onNextAction: (T) -> Unit,
-                                                        crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
+fun <T> Observable<T>.subscribeReporting(onNextAction: (T) -> Unit = {},
+                                         onErrorAction: (Throwable) -> Unit) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass"); onErrorAction(it) })
 
 //endregion :::::::::::::::::::::::::::::::::: Observable
 
@@ -103,15 +94,12 @@ fun <T> Flowable<T>.runOnIoObsOnIo(): Flowable<T> = this
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io())
 
-inline fun <reified T> Flowable<T>.subscribeSilent(crossinline onNextAction: (T) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}") })
+fun <T> Flowable<T>.subscribeSilent(onNextAction: (T) -> Unit = {}) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass") })
 
-inline fun <reified T> Flowable<T>.subscribeReporting(crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ Unit }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
-
-inline fun <reified T> Flowable<T>.subscribeReporting(crossinline onNextAction: (T) -> Unit,
-                                                      crossinline onErrorAction: (Throwable) -> Unit) =
-        subscribe({ onNextAction(it) }, { it.reportToDeveloper("${T::class.java}"); onErrorAction(it) })
+fun <T> Flowable<T>.subscribeReporting(onNextAction: (T) -> Unit = {},
+                                       onErrorAction: (Throwable) -> Unit) =
+        subscribe({ onNextAction(it) }, { it.reportToDeveloper("$javaClass"); onErrorAction(it) })
 
 //endregion :::::::::::::::::::::::::::::::::: Flowable
 
