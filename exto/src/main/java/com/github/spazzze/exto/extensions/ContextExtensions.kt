@@ -3,6 +3,8 @@ package com.github.spazzze.exto.extensions
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.Uri
@@ -60,4 +62,10 @@ fun Context.isNetworkAvailable() = try {
             ?: false
 } catch (e: java.lang.Exception) {
     false
+}
+
+fun Context.getPackageInfo(): PackageInfo = try {
+    packageManager.getPackageInfo(packageName, 0)
+} catch (e: PackageManager.NameNotFoundException) {
+    throw RuntimeException(e)
 }
