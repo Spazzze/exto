@@ -8,6 +8,7 @@ import android.util.Base64.encodeToString
  * @date 11.09.2017
  */
 
-fun <T> T.provideBase64Auth(login: String, password: String) = with(login + ":" + password) {
-    "Basic " + encodeToString(this.toByteArray(), NO_WRAP)
+fun provideBase64Auth(login: String, password: String) = when (login.isNotBlank() && password.isNotBlank()) {
+    true -> "Basic " + encodeToString("$login:$password".toByteArray(), NO_WRAP)
+    else -> null
 }
