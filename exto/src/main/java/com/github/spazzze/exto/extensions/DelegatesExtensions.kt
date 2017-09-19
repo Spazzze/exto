@@ -11,5 +11,4 @@ import kotlin.properties.Delegates
 @Suppress("UNUSED")
 fun <T> Delegates.preference(key: String,
                              default: T,
-                             context: Context,
-                             prefsName: String? = null) = Preference(key, default, prefsName ?: context.packageName, context)
+                             context: Context) = Preference(key, default, context)

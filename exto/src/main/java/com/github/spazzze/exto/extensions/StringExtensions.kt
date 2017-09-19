@@ -1,5 +1,7 @@
 package com.github.spazzze.exto.extensions
 
+import android.util.Base64
+
 /**
  * @author elena
  * @date 01/02/17
@@ -18,3 +20,7 @@ fun String.parseInt(): Int = try {
 } catch (e: Exception) {
     -1
 }
+
+fun String.encrypt() = Base64.encodeToString(toByteArray(), Base64.DEFAULT)
+
+fun String.decrypt() = String(Base64.decode(this, Base64.DEFAULT))
