@@ -54,6 +54,10 @@ fun Context.getThemeResource(resourceId: Int) = TypedValue().run {
     data
 }
 
-fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
-        ?.activeNetworkInfo?.isConnectedOrConnecting
-        ?: false
+fun Context.isNetworkAvailable() = try {
+    (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
+            ?.activeNetworkInfo?.isConnectedOrConnecting
+            ?: false
+} catch (e: java.lang.Exception) {
+    false
+}
