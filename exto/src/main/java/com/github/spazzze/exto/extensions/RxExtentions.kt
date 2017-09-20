@@ -46,6 +46,16 @@ inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -
     override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass")
 }
 
+inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -> Unit,
+                                                 crossinline onCompleteAction: () -> Unit) = object : Observer<T> {
+
+    override fun onNext(t: T) = onNextAction(t)
+
+    override fun onCompleted() = onCompleteAction()
+
+    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass")
+}
+
 inline fun <T, reified A : Any> A.reportingObserver(crossinline onErrorAction: (Throwable) -> Unit) = object : Observer<T> {
 
     override fun onNext(t: T) = Unit
