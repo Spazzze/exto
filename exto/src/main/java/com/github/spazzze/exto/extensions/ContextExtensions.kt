@@ -11,9 +11,11 @@ import android.net.Uri
 import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.DimenRes
+import android.support.v4.content.FileProvider
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import java.io.File
 
 
 /**
@@ -69,3 +71,5 @@ fun Context.getPackageInfo(): PackageInfo = try {
 } catch (e: PackageManager.NameNotFoundException) {
     throw RuntimeException(e)
 }
+
+fun Context.getUriFromFile(authority: String, file: File) = FileProvider.getUriForFile(this, authority, file)
