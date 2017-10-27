@@ -28,6 +28,6 @@ fun Throwable.reportToDeveloper(clazz: String) {
                 this is NotAuthenticatedException ||
                 this is NoNetworkException ||
                 this is SocketTimeoutException -> Log.e("DEV", "$msg ${this.javaClass.simpleName}")
-        else -> Timber.e(this, msg)
+        else -> Timber.e(this, "$msg $this")
     }
 }
