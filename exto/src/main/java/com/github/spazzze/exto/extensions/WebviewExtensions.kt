@@ -22,6 +22,8 @@ fun WebView.init(webViewClient: WebViewClient? = null, webChromeClient: WebChrom
     settings.javaScriptEnabled = true
     settings.javaScriptCanOpenWindowsAutomatically = true
     settings.mediaPlaybackRequiresUserGesture = false
+    settings.builtInZoomControls = true
+    settings.displayZoomControls = false
     webViewClient?.let { setWebViewClient(it) }
     webChromeClient?.let { setWebChromeClient(it) }
 }
