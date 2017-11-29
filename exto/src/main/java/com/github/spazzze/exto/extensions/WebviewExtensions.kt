@@ -15,17 +15,20 @@ import android.webkit.WebViewClient
  */
 
 fun WebView.init(webViewClient: WebViewClient? = null, webChromeClient: WebChromeClient? = null, noCache: Boolean = true) {
-    if (noCache) settings.cacheMode = WebSettings.LOAD_NO_CACHE
-    else settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+    with(settings) {
+        cacheMode = if (noCache) WebSettings.LOAD_NO_CACHE else WebSettings.LOAD_CACHE_ELSE_NETWORK
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        javaScriptEnabled = true
+        javaScriptCanOpenWindowsAutomatically = true
+        mediaPlaybackRequiresUserGesture = false
+        builtInZoomControls = true
+        displayZoomControls = false
+        useWideViewPort = true
+        loadWithOverviewMode = true
+        allowFileAccessFromFileURLs = true
+        allowUniversalAccessFromFileURLs = true
+    }
     clearCache(noCache)
-    settings.javaScriptEnabled = true
-    settings.javaScriptCanOpenWindowsAutomatically = true
-    settings.mediaPlaybackRequiresUserGesture = false
-    settings.builtInZoomControls = true
-    settings.displayZoomControls = false
-    settings.useWideViewPort = true
-    settings.loadWithOverviewMode = true
     webViewClient?.let { setWebViewClient(it) }
     webChromeClient?.let { setWebChromeClient(it) }
 }
