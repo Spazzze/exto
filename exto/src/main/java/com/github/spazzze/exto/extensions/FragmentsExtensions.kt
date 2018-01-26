@@ -2,6 +2,7 @@ package com.github.spazzze.exto.extensions
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.MailTo
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -21,6 +22,23 @@ import java.io.Serializable
  * @author Space
  * @date 29.01.2017
  */
+
+fun Fragment.mailTo(url: String): Boolean = try {
+    with(MailTo.parse(url)) {
+        val intent = Intent(Intent.ACTION_SENDTO)
+        intent.data = Uri.parse("mailto:")
+        if (to?.trim().isNotNullOrBlank()) intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(to))
+        if (subject?.trim().isNotNullOrBlank()) intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        if (body?.trim().isNotNullOrBlank()) intent.putExtra(Intent.EXTRA_TEXT, body)
+        if (intent.resolveActivity(context.packageManager) != null) {
+            startActivity(intent)
+            return true
+        }
+        return false
+    }
+} catch (e: Exception) {
+    false
+}
 
 fun Fragment.takePicture(file: File, intentId: Int) = try {
     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
