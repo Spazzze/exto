@@ -2,10 +2,7 @@ package com.github.spazzze.exto.extensions
 
 import android.util.Log
 import com.github.spazzze.exto.R
-import com.github.spazzze.exto.errors.NoNetworkException
-import com.github.spazzze.exto.errors.NotAuthenticatedException
-import com.github.spazzze.exto.errors.NotFoundException
-import com.github.spazzze.exto.errors.WrongCredentialsError
+import com.github.spazzze.exto.errors.*
 import timber.log.Timber
 import java.net.SocketTimeoutException
 
@@ -23,6 +20,7 @@ fun Throwable.networkErrorMsgId(): Int = when {
 fun Throwable.reportToDeveloper(clazz: String) {
     val msg = "$clazz failure in subscription: "
     when {
+        this is HumanError -> Log.d("DEV", "$msg ${this.javaClass.simpleName}")
         this is NotFoundException ||
                 this is WrongCredentialsError ||
                 this is NotAuthenticatedException ||
