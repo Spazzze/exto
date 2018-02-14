@@ -74,7 +74,11 @@ fun <T : Fragment> FragmentManager.add(fragment: T, containerId: Int, addToBackS
 
 fun FragmentManager.clearBackStack(): Boolean {
     while (backStackEntryCount != 0) {
-        popBackStackImmediate()
+        try {
+            popBackStackImmediate()
+        } catch (e: Exception) {
+            popBackStack()
+        }
     }
     return true
 }
