@@ -42,14 +42,13 @@ ext {
 
 ext.gradle_version = '2.3.3'
 ext.supportLibs_version = '25.3.1'
-ext.rxandroid_version = '2.0.1'
-ext.rxjava_version = '2.1.3'
+ext.rx_version = '1.2.1'
 ext.glide_version = '3.7.0'
 ext.timber_version = '4.5.1'
 ext.funktionale_version = '1.1'
 
 buildscript {
-    ext.kotlin_version = '1.1.4-3'
+    ext.kotlin_version = '1.1.4-2'
     repositories {
         mavenCentral()
         jcenter()
@@ -89,8 +88,7 @@ android {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
-    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    compile "io.reactivex:rxandroid:$rx_version"
     compile "com.android.support:appcompat-v7:$supportLibs_version"
     compile "com.android.support:design:$supportLibs_version"
     compile "com.github.bumptech.glide:glide:$glide_version"
