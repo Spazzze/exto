@@ -38,7 +38,7 @@ object PermissionUtils : IPermissionsChecker {
             .map { permissions[it] }
             .any { fragment.shouldShowRequestPermissionRationale(it) }
 
-    private fun permissionExists(permission: String): Boolean = VERSION.SDK_INT >= MIN_SDK_PERMISSIONS.get(permission) as Int
+    private fun permissionExists(permission: String): Boolean = VERSION.SDK_INT >= MIN_SDK_PERMISSIONS.get(permission) ?: 0
 
     private fun hasSelfPermission(context: Context, permission: String): Boolean =
             if (VERSION.SDK_INT >= 23 && "Xiaomi".equals(Build.MANUFACTURER, ignoreCase = true)) {
