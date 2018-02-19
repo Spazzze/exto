@@ -15,13 +15,13 @@ fun <T : BaseObservable> T.onChange(action: T.() -> Unit) = apply {
     })
 }
 
-fun <T, C : ObservableArrayList<in T>> C.onChange(action: () -> Unit) = apply {
+fun <T, C : ObservableArrayList<in T>> C.onChange(action: C.() -> Unit) = apply {
     addOnListChangedCallback(object : ObservableList.OnListChangedCallback<C>() {
-        override fun onItemRangeRemoved(p0: C, p1: Int, p2: Int) = action()
-        override fun onItemRangeChanged(p0: C, p1: Int, p2: Int) = action()
-        override fun onChanged(p0: C) = action()
-        override fun onItemRangeMoved(p0: C, p1: Int, p2: Int, p3: Int) = action()
-        override fun onItemRangeInserted(p0: C, p1: Int, p2: Int) = action()
+        override fun onItemRangeRemoved(p0: C, p1: Int, p2: Int) = p0.action()
+        override fun onItemRangeChanged(p0: C, p1: Int, p2: Int) = p0.action()
+        override fun onChanged(p0: C) = p0.action()
+        override fun onItemRangeMoved(p0: C, p1: Int, p2: Int, p3: Int) = p0.action()
+        override fun onItemRangeInserted(p0: C, p1: Int, p2: Int) = p0.action()
     })
 }
 
