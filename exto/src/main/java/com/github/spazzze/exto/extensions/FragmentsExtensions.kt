@@ -18,6 +18,7 @@ import java.io.File
 import java.io.IOException
 import java.io.Serializable
 
+
 /**
  * @author Space
  * @date 29.01.2017
@@ -54,6 +55,22 @@ fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = try {
     startActivityForResult(Intent.createChooser(takeFromGalleryIntent, getString(titleRes)), intentId)
 } catch (e: Exception) {
     Timber.e(e, "chooseFromGallery intent error: ")
+}
+
+fun Fragment.chooseAudio(@StringRes titleRes: Int, intentId: Int) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    intent.type = "audio/*"
+    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+} catch (e: Exception) {
+    Timber.e(e, "pickMp3 intent error: ")
+}
+
+fun Fragment.chooseMp3(@StringRes titleRes: Int, intentId: Int) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    intent.type = "audio/mpeg"
+    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+} catch (e: Exception) {
+    Timber.e(e, "pickMp3 intent error: ")
 }
 
 inline fun <T : Fragment> FragmentManager.replaceFragment(containerId: Int, addToBackStack: Boolean,
