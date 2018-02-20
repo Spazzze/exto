@@ -62,15 +62,31 @@ fun Fragment.chooseAudio(@StringRes titleRes: Int, intentId: Int) = try {
     intent.type = "audio/*"
     startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
-    Timber.e(e, "pickMp3 intent error: ")
+    Timber.e(e, "chooseAudio intent error: ")
 }
 
-fun Fragment.chooseMp3(@StringRes titleRes: Int, intentId: Int) = try {
+fun Fragment.chooseMp3Audio(@StringRes titleRes: Int, intentId: Int) = try {
     val intent = Intent(Intent.ACTION_GET_CONTENT)
     intent.type = "audio/mpeg"
     startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
-    Timber.e(e, "pickMp3 intent error: ")
+    Timber.e(e, "chooseMp3Audio intent error: ")
+}
+
+fun Fragment.chooseVideo(@StringRes titleRes: Int, intentId: Int) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    intent.type = "video/*"
+    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+} catch (e: Exception) {
+    Timber.e(e, "chooseVideo intent error: ")
+}
+
+fun Fragment.chooseMp4Video(@StringRes titleRes: Int, intentId: Int) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT)
+    intent.type = "video/mp4"
+    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+} catch (e: Exception) {
+    Timber.e(e, "chooseMp4Video intent error: ")
 }
 
 inline fun <T : Fragment> FragmentManager.replaceFragment(containerId: Int, addToBackStack: Boolean,
