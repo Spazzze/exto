@@ -3,6 +3,7 @@ package com.github.spazzze.exto.extensions
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.support.annotation.AnimRes
+import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
 import android.view.View
 import android.view.animation.Animation
@@ -50,6 +51,19 @@ fun ImageView.load(path: String?, placeholder: Drawable,
             .load(path ?: "")
             .error(placeholder)
             .placeholder(placeholder)
+            .dontAnimate()
+            .fitCenter()
+            .skipMemoryCache(true)
+            .diskCacheStrategy(cacheStrategy)
+            .into(this)
+}
+
+fun ImageView.load(path: String?, @DrawableRes placeholderRes: Int,
+                   cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+    Glide.with(context)
+            .load(path ?: "")
+            .error(placeholderRes)
+            .placeholder(placeholderRes)
             .dontAnimate()
             .fitCenter()
             .skipMemoryCache(true)
