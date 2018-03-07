@@ -49,6 +49,17 @@ fun Fragment.takePicture(file: File, intentId: Int) = try {
     Timber.e(e, "takePhoto intent error: ")
 }
 
+fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0) = try {
+    val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+    val maxDuration = if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30
+    takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, maxDuration)
+    takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+    takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
+    startActivityForResult(takeVideoIntent, intentId)
+} catch (e: Exception) {
+    Timber.e(e, "takeVideo intent error: ")
+}
+
 fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = try {
     val takeFromGalleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     takeFromGalleryIntent.type = "image/*"
