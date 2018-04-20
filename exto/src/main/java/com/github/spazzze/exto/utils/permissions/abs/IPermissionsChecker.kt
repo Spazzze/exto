@@ -1,4 +1,4 @@
-package com.github.spazzze.exto.utils
+package com.github.spazzze.exto.utils.permissions.abs
 
 import android.app.Activity
 import android.content.Context

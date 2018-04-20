@@ -1,9 +1,4 @@
-package com.github.spazzze.exto.utils
-
-/**
- * @author Space
- * @date 14.02.2018
- */
+package com.github.spazzze.exto.utils.permissions
 
 import android.app.Activity
 import android.content.Context
@@ -15,10 +10,27 @@ import android.support.v4.app.AppOpsManagerCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.PermissionChecker
 import android.support.v4.util.SimpleArrayMap
+import com.github.spazzze.exto.utils.permissions.abs.IPermissionsChecker
+
+/**
+ * @author Space
+ * @date 14.02.2018
+ */
 
 object PermissionUtils : IPermissionsChecker {
 
     private val MIN_SDK_PERMISSIONS = SimpleArrayMap<String, Int>(8)
+
+    init {
+        MIN_SDK_PERMISSIONS.put("com.android.voicemail.permission.ADD_VOICEMAIL", Integer.valueOf(14))
+        MIN_SDK_PERMISSIONS.put("android.permission.BODY_SENSORS", Integer.valueOf(20))
+        MIN_SDK_PERMISSIONS.put("android.permission.READ_CALL_LOG", Integer.valueOf(16))
+        MIN_SDK_PERMISSIONS.put("android.permission.READ_EXTERNAL_STORAGE", Integer.valueOf(16))
+        MIN_SDK_PERMISSIONS.put("android.permission.USE_SIP", Integer.valueOf(9))
+        MIN_SDK_PERMISSIONS.put("android.permission.WRITE_CALL_LOG", Integer.valueOf(16))
+        MIN_SDK_PERMISSIONS.put("android.permission.SYSTEM_ALERT_WINDOW", Integer.valueOf(23))
+        MIN_SDK_PERMISSIONS.put("android.permission.WRITE_SETTINGS", Integer.valueOf(23))
+    }
 
     override fun verifyPermissions(vararg grantResults: Int): Boolean = when {
         grantResults.isEmpty() -> false
@@ -55,15 +67,4 @@ object PermissionUtils : IPermissionsChecker {
     private fun hasSelfPermissionForXiaomi(context: Context, permission: String): Boolean = AppOpsManagerCompat.permissionToOp(permission)?.let {
         AppOpsManagerCompat.noteOp(context, it, Process.myUid(), context.packageName) == 0 && PermissionChecker.checkSelfPermission(context, permission) == 0
     } ?: true
-
-    init {
-        MIN_SDK_PERMISSIONS.put("com.android.voicemail.permission.ADD_VOICEMAIL", Integer.valueOf(14))
-        MIN_SDK_PERMISSIONS.put("android.permission.BODY_SENSORS", Integer.valueOf(20))
-        MIN_SDK_PERMISSIONS.put("android.permission.READ_CALL_LOG", Integer.valueOf(16))
-        MIN_SDK_PERMISSIONS.put("android.permission.READ_EXTERNAL_STORAGE", Integer.valueOf(16))
-        MIN_SDK_PERMISSIONS.put("android.permission.USE_SIP", Integer.valueOf(9))
-        MIN_SDK_PERMISSIONS.put("android.permission.WRITE_CALL_LOG", Integer.valueOf(16))
-        MIN_SDK_PERMISSIONS.put("android.permission.SYSTEM_ALERT_WINDOW", Integer.valueOf(23))
-        MIN_SDK_PERMISSIONS.put("android.permission.WRITE_SETTINGS", Integer.valueOf(23))
-    }
 }
