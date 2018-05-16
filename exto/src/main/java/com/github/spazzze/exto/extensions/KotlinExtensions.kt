@@ -20,3 +20,12 @@ inline fun runIf(condition: Boolean, block: () -> Unit) = condition.apply { if (
 inline fun <R> execute(block: () -> R): Unit {
     block()
 }
+
+inline fun tryThis(actionOnTry: () -> Unit, actionOnCatch: () -> Unit = {}, message: String = "") {
+    try {
+        actionOnTry()
+    } catch (t: Throwable) {
+        t.reportToDeveloper("try was not successful $message")
+        actionOnCatch()
+    }
+}
