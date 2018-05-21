@@ -41,6 +41,13 @@ fun Fragment.mailTo(url: String): Boolean = try {
     false
 }
 
+fun Fragment.callTo(url: String) = try {
+    val intent = Intent(Intent.ACTION_DIAL, Uri.parse(url))
+    startActivity(intent)
+} catch (e: Exception) {
+    Timber.e(e, "callTo intent error: cannot call intent ACTION_DIAL $url")
+}
+
 fun Fragment.takePicture(file: File, intentId: Int) = try {
     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
