@@ -28,7 +28,7 @@ open class DefaultPermissionDispatcherImpl(private val permissionsArray: Array<S
             action()
             return
         }
-        with(PendingPermissionRequest(target, permissionsArray, requestCode, action, onDeniedAction)) {
+        with(PendingActivityPermissionRequest(target, permissionsArray, requestCode, action, onDeniedAction)) {
             pendingRequest = this
             when {
                 PermissionUtils.shouldShowRequestPermissionRationale(target, *permissionsArray) -> onShowRationale(this)
@@ -43,7 +43,7 @@ open class DefaultPermissionDispatcherImpl(private val permissionsArray: Array<S
             action()
             return
         }
-        with(PendingPermissionRequest(target.activity, permissionsArray, requestCode, action, onDeniedAction)) {
+        with(PendingFragmentPermissionRequest(target, permissionsArray, requestCode, action, onDeniedAction)) {
             pendingRequest = this
             when {
                 PermissionUtils.shouldShowRequestPermissionRationale(target, *permissionsArray) -> onShowRationale(this)
@@ -70,13 +70,30 @@ open class DefaultPermissionDispatcherImpl(private val permissionsArray: Array<S
         pendingRequest = null
     }
 
-    private class PendingPermissionRequest(target: Activity,
-                                           private val permissionsArray: Array<String>,
-                                           private val requestCode: Int,
-                                           private val onSuccessAction: () -> Unit,
-                                           private val onDeniedAction: () -> Unit) : IExecutablePermissionRequest {
+    private class PendingActivityPermissionRequest(target: Activity,
+                                                   private val permissionsArray: Array<String>,
+                                                   private val requestCode: Int,
+                                                   private val onSuccessAction: () -> Unit,
+                                                   private val onDeniedAction: () -> Unit) : IExecutablePermissionRequest {
 
         private val weakTarget: WeakReference<Activity> = WeakReference(target)
+
+        @TargetApi(Build.VERSION_CODES.M)
+        override fun proceed() = weakTarget.get()?.requestPermissions(permissionsArray, requestCode)
+                ?: Unit
+
+        override fun cancel() = onDeniedAction()
+
+        override fun execute() = onSuccessAction()
+    }
+
+    private class PendingFragmentPermissionRequest(target: Fragment,
+                                                   private val permissionsArray: Array<String>,
+                                                   private val requestCode: Int,
+                                                   private val onSuccessAction: () -> Unit,
+                                                   private val onDeniedAction: () -> Unit) : IExecutablePermissionRequest {
+
+        private val weakTarget: WeakReference<Fragment> = WeakReference(target)
 
         @TargetApi(Build.VERSION_CODES.M)
         override fun proceed() = weakTarget.get()?.requestPermissions(permissionsArray, requestCode)

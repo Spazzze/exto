@@ -2,6 +2,7 @@ package com.github.spazzze.exto.utils.permissions
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION
 import android.os.Process
@@ -36,7 +37,7 @@ object PermissionUtils : IPermissionsChecker {
         grantResults.isEmpty() -> false
         else -> (0 until grantResults.size)
                 .map { grantResults[it] }
-                .none { it != 0 }
+                .none { it != PackageManager.PERMISSION_GRANTED }
     }
 
     override fun hasSelfPermissions(context: Context, vararg permissions: String): Boolean = (0 until permissions.size)
