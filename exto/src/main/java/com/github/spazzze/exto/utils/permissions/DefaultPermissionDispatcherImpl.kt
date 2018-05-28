@@ -39,7 +39,7 @@ open class DefaultPermissionDispatcherImpl(private val permissionsArray: Array<S
 
     @TargetApi(Build.VERSION_CODES.M)
     fun executeWithCheck(target: Fragment, action: () -> Unit) {
-        if (PermissionUtils.hasSelfPermissions(target.activity, *permissionsArray)) {
+        if (PermissionUtils.hasSelfPermissions(target.context, *permissionsArray)) {
             action()
             return
         }

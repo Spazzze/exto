@@ -17,7 +17,14 @@ inline fun <T> T.applyIf(condition: T.() -> Boolean, block: T.() -> Unit): T = w
 
 inline fun runIf(condition: Boolean, block: () -> Unit) = condition.apply { if (this) block() }
 
-inline fun <R> execute(block: () -> R): Unit {
+inline fun <R> execute(block: () -> R) {
+    block()
+}
+
+/**
+ * Calls the specified function [block] with `this` value as its receiver but returns Unit.
+ */
+inline fun <T, R> T.execute(block: T.() -> R) {
     block()
 }
 
