@@ -10,9 +10,7 @@ import android.view.View
  */
 
 @BindingConversion
-fun convertBooleanToVisibility(visible: Boolean): Int {
-    return if (visible) View.VISIBLE else View.GONE
-}
+fun convertBooleanToVisibility(visible: Boolean) = if (visible) View.VISIBLE else View.GONE
 
 @BindingAdapter("onClick")
 fun bindOnClick(view: View, runnable: Runnable) {

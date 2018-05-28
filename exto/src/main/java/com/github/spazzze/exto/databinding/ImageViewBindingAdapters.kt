@@ -57,7 +57,12 @@ fun loadImageWithListener(view: ImageView, url: String?, listener: RequestListen
     view.load(url, listener)
 }
 
-@BindingAdapter("src")
+@BindingAdapter("srcCompat")
+fun loadImageDrawable(view: ImageView, drawable: Drawable?) {
+    view.setImageDrawable(drawable ?: return)
+}
+
+@BindingAdapter("srcCompat")
 fun loadImageDrawable(view: ImageView, drawableRes: Int?) {
     drawableRes ?: return
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) view.setImageResource(drawableRes)

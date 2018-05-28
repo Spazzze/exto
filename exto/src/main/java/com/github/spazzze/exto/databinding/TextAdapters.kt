@@ -2,6 +2,7 @@ package com.github.spazzze.exto.databinding
 
 import android.databinding.BindingAdapter
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.support.annotation.ColorRes
 import android.support.annotation.StringRes
 import android.support.design.widget.TextInputLayout
@@ -26,6 +27,16 @@ fun showError(til: TextInputLayout, @StringRes error: Int?) {
         else -> til.error = til.context.getString(error)
     }
     til.isErrorEnabled = error != null
+}
+
+@BindingAdapter("hint")
+fun setHint(textInputLayout: TextInputLayout, s: String) {
+    textInputLayout.hint = s
+}
+
+@BindingAdapter("font")
+fun setFont(textView: TextView, fontName: String) {
+    textView.typeface = Typeface.createFromAsset(textView.context.assets, fontName)
 }
 
 @BindingAdapter("switchText")
