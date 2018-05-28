@@ -20,9 +20,9 @@ fun Throwable.networkErrorMsgId(): Int = when {
 fun Throwable.reportToDeveloper(clazz: String) {
     val msg = "$clazz failure in subscription: "
     when {
-        this is HumanError -> Log.d("DEV", "$msg ${this.javaClass.simpleName}")
+        this is InformativeException -> Log.d("DEV", "$msg ${this.javaClass.simpleName}")
         this is NotFoundException ||
-                this is WrongCredentialsError ||
+                this is WrongCredentialsException ||
                 this is NotAuthenticatedException ||
                 this is NoNetworkException ||
                 this is SocketTimeoutException -> Log.e("DEV", "$msg ${this.javaClass.simpleName}")

@@ -5,4 +5,4 @@ package com.github.spazzze.exto.errors
  * @date 02/02/17
  */
 
-class NoNetworkException : Exception()
+class NoNetworkException(override val message: String = "") : Exception()

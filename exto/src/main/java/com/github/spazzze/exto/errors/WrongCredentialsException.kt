@@ -7,4 +7,4 @@ import java.io.IOException
  * @date 10.04.2017
  */
 
-class WrongCredentialsError : IOException()
+class WrongCredentialsException(override val message: String = "") : IOException()

@@ -11,6 +11,8 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.RequestListener
 import com.github.spazzze.exto.R
 import com.github.spazzze.exto.view.CropCircleTransformation
 
@@ -40,8 +42,22 @@ fun ImageView.load(path: String?,
                    cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
     Glide.with(context)
             .load(path ?: "")
+            .dontAnimate()
+            .fitCenter()
             .skipMemoryCache(true)
             .diskCacheStrategy(cacheStrategy)
+            .into(this)
+}
+
+fun ImageView.load(path: String?, listener: RequestListener<String, GlideDrawable>,
+                   cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+    Glide.with(context)
+            .load(path ?: "")
+            .dontAnimate()
+            .fitCenter()
+            .skipMemoryCache(true)
+            .diskCacheStrategy(cacheStrategy)
+            .listener(listener)
             .into(this)
 }
 
