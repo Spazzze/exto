@@ -1,11 +1,8 @@
 package com.github.spazzze.exto.view.interfaces
 
-import android.content.Context
 import android.support.annotation.StringRes
 
 interface IBaseView : IAlerter {
-
-    val ctx: Context
 
     fun showMessage(message: String)
 

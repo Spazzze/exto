@@ -1,7 +1,6 @@
-package com.github.spazzze.exto.view.viewmodels.abs
+package com.github.spazzze.exto.databinding.interfaces
 
 import android.databinding.ObservableBoolean
-import com.github.spazzze.exto.view.interfaces.IAlerter
 import com.github.spazzze.exto.view.interfaces.IProgressHandler
 import rx.Observable
 import rx.Single
@@ -12,9 +11,9 @@ import rx.subjects.PublishSubject
  * @date 27.02.2017
  */
 
-abstract class ViewModelWithProgress(alerter: IAlerter?) : BaseViewModel(alerter), IProgressHandler {
+interface IViewModelWithProgress : IViewModel, IProgressHandler {
 
-    val isProgressBarVisible = ObservableBoolean(false)
+    val isProgressBarVisible: ObservableBoolean
 
     override fun hideProgress() = isProgressBarVisible.set(false)
 
