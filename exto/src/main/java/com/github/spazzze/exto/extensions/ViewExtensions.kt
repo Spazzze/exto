@@ -1,6 +1,7 @@
 package com.github.spazzze.exto.extensions
 
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.AnimRes
 import android.support.annotation.DrawableRes
@@ -11,8 +12,10 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.GlideDrawable
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.github.spazzze.exto.R
 import com.github.spazzze.exto.view.CropCircleTransformation
 
@@ -38,81 +41,65 @@ fun View.animateViewChanges(@AnimRes animInId: Int, @AnimRes animIOutId: Int, ch
     })
 }
 
-fun ImageView.load(path: String?,
-                   cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+fun ImageView.load(path: String?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .dontAnimate()
-            .fitCenter()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(cacheStrategy)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(this)
 }
 
-fun ImageView.load(path: String?, listener: RequestListener<String, GlideDrawable>,
-                   cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+fun ImageView.load(path: String?, listener: RequestListener<Drawable>, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .dontAnimate()
-            .fitCenter()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(cacheStrategy)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .listener(listener)
             .into(this)
 }
 
-fun ImageView.load(path: String?, placeholder: Drawable,
-                   cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+fun ImageView.load(path: String?, placeholder: Drawable, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .error(placeholder)
-            .placeholder(placeholder)
-            .dontAnimate()
-            .fitCenter()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(cacheStrategy)
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(this)
 }
 
-fun ImageView.load(path: String?, @DrawableRes placeholderRes: Int,
-                   cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+fun ImageView.load(path: String?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .error(placeholderRes)
-            .placeholder(placeholderRes)
-            .dontAnimate()
-            .fitCenter()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(cacheStrategy)
+            .apply(RequestOptions().error(placeholderRes).placeholder(placeholderRes).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(this)
 }
 
-fun ImageView.roundedImage(path: String?, placeholder: Drawable,
-                           cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+fun ImageView.roundedImage(path: String?, placeholder: Drawable, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .error(placeholder)
-            .placeholder(placeholder)
-            .centerCrop()
-            .bitmapTransform(CropCircleTransformation(context))
-            .skipMemoryCache(true)
-            .diskCacheStrategy(cacheStrategy)
-            .crossFade()
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).centerCrop().diskCacheStrategy(cacheStrategy).transforms(CropCircleTransformation()))
             .into(this)
 }
 
-fun ImageView.roundedImage(path: String?, placeholder: Drawable, borderWidth: Float, borderColor: Int,
-                           cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESULT) {
+fun ImageView.loadAsBitmap(path: String?, onResourceReady: (Bitmap) -> Unit) {
     Glide.with(context)
+            .asBitmap()
             .load(path ?: "")
-            .error(placeholder)
-            .placeholder(placeholder)
-            .centerCrop()
-            .bitmapTransform(CropCircleTransformation(context, borderWidth, borderColor))
-            .skipMemoryCache(true)
-            .diskCacheStrategy(cacheStrategy)
-            .crossFade()
-            .into(this)
+            .into(object : SimpleTarget<Bitmap>() {
+                override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                    onResourceReady(bitmap)
+                    setImageBitmap(bitmap)
+                }
+            })
+}
+
+fun ImageView.loadAsBitmap(path: String?, listener: RequestListener<Bitmap>, onResourceReady: (Bitmap) -> Unit) {
+    Glide.with(context)
+            .asBitmap()
+            .load(path ?: "")
+            .listener(listener)
+            .into(object : SimpleTarget<Bitmap>() {
+                override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                    onResourceReady(bitmap)
+                    setImageBitmap(bitmap)
+                }
+            })
 }
 
 @Suppress("DEPRECATION")
