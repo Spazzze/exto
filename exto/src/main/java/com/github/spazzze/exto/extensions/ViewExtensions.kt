@@ -77,10 +77,11 @@ fun ImageView.roundedImage(path: String?, placeholder: Drawable, cacheStrategy: 
             .into(this)
 }
 
-fun ImageView.loadAsBitmap(path: String?, onResourceReady: (Bitmap) -> Unit) {
+fun ImageView.loadAsBitmap(path: String?, onResourceReady: (Bitmap) -> Unit, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .asBitmap()
             .load(path ?: "")
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                     onResourceReady(bitmap)
@@ -89,11 +90,12 @@ fun ImageView.loadAsBitmap(path: String?, onResourceReady: (Bitmap) -> Unit) {
             })
 }
 
-fun ImageView.loadAsBitmap(path: String?, listener: RequestListener<Bitmap>, onResourceReady: (Bitmap) -> Unit) {
+fun ImageView.loadAsBitmap(path: String?, listener: RequestListener<Bitmap>, onResourceReady: (Bitmap) -> Unit, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .asBitmap()
             .load(path ?: "")
             .listener(listener)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                     onResourceReady(bitmap)
