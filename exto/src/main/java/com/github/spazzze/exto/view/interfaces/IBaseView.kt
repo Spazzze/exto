@@ -4,6 +4,8 @@ import android.support.annotation.StringRes
 
 interface IBaseView : IAlerter {
 
+    fun onUiThread(action: IBaseView.() -> Unit)
+
     fun showMessage(message: String)
 
     fun showMessage(@StringRes messageId: Int)

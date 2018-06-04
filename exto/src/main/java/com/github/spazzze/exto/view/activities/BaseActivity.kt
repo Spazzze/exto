@@ -1,4 +1,4 @@
-package com.github.spazzze.exto.view.abs
+package com.github.spazzze.exto.view.activities
 
 import android.app.AlertDialog
 import android.content.Context
@@ -54,4 +54,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
                     .show()
 
     override fun showAlert(message: String) = showMessage(message)
+
+    override fun onUiThread(action: IBaseView.() -> Unit) = runOnUiThread { action() }
 }
