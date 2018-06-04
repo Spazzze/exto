@@ -23,21 +23,21 @@ fun Fragment.mailTo(url: String) = activity.mailTo(url)
 
 fun Fragment.callTo(url: String) = activity.callTo(url)
 
-fun Fragment.takePicture(file: File, intentId: Int) = activity.takePicture(file, intentId)
+fun Fragment.takePicture(file: File, intentId: Int) = activity.takePicture(file, intentId, this)
 
-fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0) = activity.takeVideo(file, intentId, maximumDurationInSeconds)
+fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0) = activity.takeVideo(file, intentId, maximumDurationInSeconds, this)
 
-fun Fragment.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0) = activity.takeVideo(intentId, maximumDurationInSeconds)
+fun Fragment.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0) = activity.takeVideo(intentId, maximumDurationInSeconds, this)
 
-fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = activity.chooseFromGallery(titleRes, intentId)
+fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = activity.chooseFromGallery(titleRes, intentId, this)
 
-fun Fragment.chooseAudio(@StringRes titleRes: Int, intentId: Int) = activity.chooseAudio(titleRes, intentId)
+fun Fragment.chooseAudio(@StringRes titleRes: Int, intentId: Int) = activity.chooseAudio(titleRes, intentId, this)
 
-fun Fragment.chooseMp3Audio(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp3Audio(titleRes, intentId)
+fun Fragment.chooseMp3Audio(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp3Audio(titleRes, intentId, this)
 
-fun Fragment.chooseVideo(@StringRes titleRes: Int, intentId: Int) = activity.chooseVideo(titleRes, intentId)
+fun Fragment.chooseVideo(@StringRes titleRes: Int, intentId: Int) = activity.chooseVideo(titleRes, intentId, this)
 
-fun Fragment.chooseMp4Video(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp4Video(titleRes, intentId)
+fun Fragment.chooseMp4Video(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp4Video(titleRes, intentId, this)
 
 inline fun <T : Fragment> FragmentManager.replaceFragment(containerId: Int, addToBackStack: Boolean,
                                                           tag: String?, createNewFragment: () -> T) =

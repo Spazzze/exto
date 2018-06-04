@@ -7,6 +7,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.support.annotation.MenuRes
 import android.support.annotation.StringRes
+import android.support.v4.app.Fragment
 import android.support.v4.app.ShareCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -58,71 +59,70 @@ fun Activity.callTo(url: String) = try {
     Timber.e(e, "callTo intent error: cannot call intent ACTION_DIAL $url")
 }
 
-fun Activity.takePicture(file: File, intentId: Int) = try {
-    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
-    startActivityForResult(takePictureIntent, intentId)
+fun Activity.takePicture(file: File, intentId: Int, fragment: Fragment? = null) = try {
+    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply { putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file)) }
+    fragment?.startActivityForResult(intent, intentId) ?: startActivityForResult(intent, intentId)
 } catch (e: Exception) {
     Timber.e(e, "takePhoto intent error: ")
 }
 
-fun Activity.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0) = try {
-    val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-    val maxDuration = if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30
-    takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, maxDuration)
-    takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
-    takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
-    startActivityForResult(takeVideoIntent, intentId)
+fun Activity.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0, fragment: Fragment? = null) = try {
+    with(Intent(MediaStore.ACTION_VIDEO_CAPTURE)) {
+        putExtra(MediaStore.EXTRA_DURATION_LIMIT, if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30)
+        putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+        putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
+        fragment?.startActivityForResult(this, intentId) ?: startActivityForResult(this, intentId)
+    }
 } catch (e: Exception) {
     Timber.e(e, "takeVideo intent error: ")
 }
 
-fun Activity.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0) = try {
-    val takeVideoIntent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-    val maxDuration = if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30
-    takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, maxDuration)
-    takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
-    startActivityForResult(takeVideoIntent, intentId)
+fun Activity.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0, fragment: Fragment? = null) = try {
+    with(Intent(MediaStore.ACTION_VIDEO_CAPTURE)) {
+        putExtra(MediaStore.EXTRA_DURATION_LIMIT, if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30)
+        putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+        fragment?.startActivityForResult(this, intentId) ?: startActivityForResult(this, intentId)
+    }
 } catch (e: Exception) {
     Timber.e(e, "takeVideo intent error: ")
 }
 
-fun Activity.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = try {
-    val takeFromGalleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-    takeFromGalleryIntent.type = "image/*"
-    startActivityForResult(Intent.createChooser(takeFromGalleryIntent, getString(titleRes)), intentId)
+fun Activity.chooseFromGallery(@StringRes titleRes: Int, intentId: Int, fragment: Fragment? = null) = try {
+    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).apply { type = "image/*" }
+    fragment?.startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+            ?: startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
     Timber.e(e, "chooseFromGallery intent error: ")
 }
 
-fun Activity.chooseAudio(@StringRes titleRes: Int, intentId: Int) = try {
-    val intent = Intent(Intent.ACTION_GET_CONTENT)
-    intent.type = "audio/*"
-    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+fun Activity.chooseAudio(@StringRes titleRes: Int, intentId: Int, fragment: Fragment? = null) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "audio/*" }
+    fragment?.startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+            ?: startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
     Timber.e(e, "chooseAudio intent error: ")
 }
 
-fun Activity.chooseMp3Audio(@StringRes titleRes: Int, intentId: Int) = try {
-    val intent = Intent(Intent.ACTION_GET_CONTENT)
-    intent.type = "audio/mpeg"
-    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+fun Activity.chooseMp3Audio(@StringRes titleRes: Int, intentId: Int, fragment: Fragment? = null) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "audio/mpeg" }
+    fragment?.startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+            ?: startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
     Timber.e(e, "chooseMp3Audio intent error: ")
 }
 
-fun Activity.chooseVideo(@StringRes titleRes: Int, intentId: Int) = try {
-    val intent = Intent(Intent.ACTION_GET_CONTENT)
-    intent.type = "video/*"
-    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+fun Activity.chooseVideo(@StringRes titleRes: Int, intentId: Int, fragment: Fragment? = null) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "video/*" }
+    fragment?.startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+            ?: startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
     Timber.e(e, "chooseVideo intent error: ")
 }
 
-fun Activity.chooseMp4Video(@StringRes titleRes: Int, intentId: Int) = try {
-    val intent = Intent(Intent.ACTION_GET_CONTENT)
-    intent.type = "video/mp4"
-    startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+fun Activity.chooseMp4Video(@StringRes titleRes: Int, intentId: Int, fragment: Fragment? = null) = try {
+    val intent = Intent(Intent.ACTION_GET_CONTENT).apply { type = "video/mp4" }
+    fragment?.startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
+            ?: startActivityForResult(Intent.createChooser(intent, getString(titleRes)), intentId)
 } catch (e: Exception) {
     Timber.e(e, "chooseMp4Video intent error: ")
 }
