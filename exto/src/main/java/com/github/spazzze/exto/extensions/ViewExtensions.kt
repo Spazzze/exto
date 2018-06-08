@@ -3,6 +3,7 @@ package com.github.spazzze.exto.extensions
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.support.annotation.AnimRes
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
@@ -18,6 +19,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.github.spazzze.exto.R
 import com.github.spazzze.exto.view.CropCircleTransformation
+import java.io.File
 
 /**
  * @author Space
@@ -43,7 +45,21 @@ fun View.animateViewChanges(@AnimRes animInId: Int, @AnimRes animIOutId: Int, ch
 
 fun ImageView.load(path: String?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
-            .load(path ?: "")
+            .load(path ?: return)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .into(this)
+}
+
+fun ImageView.load(path: File?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .into(this)
+}
+
+fun ImageView.load(path: Uri?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
+    Glide.with(context)
+            .load(path ?: return)
             .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(this)
 }
