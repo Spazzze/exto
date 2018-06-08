@@ -12,6 +12,7 @@ fun <T> MutableCollection<T>.replaceAllBy(list: List<T>) =
             if (list.isNotEmpty()) addAll(list) else true
         } else false
 
+@Synchronized
 inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(destination: C, transform: (T) -> R) =
         destination.replaceAllBy(this.mapTo(java.util.ArrayList<R>(), { transform(it) }))
 
@@ -22,3 +23,7 @@ fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) {
         list.forEach { this.put(transform(it), it) }
     }
 }
+
+@Synchronized
+fun <T, V> MutableMap<T, V>.removeWithAction(key: T, action: (V) -> Unit) = remove(key)?.let(action)
+        ?: Unit
