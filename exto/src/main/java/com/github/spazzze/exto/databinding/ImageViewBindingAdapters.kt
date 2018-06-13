@@ -30,13 +30,7 @@ fun loadImage(view: ImageView, url: String?, placeholder: Drawable?) {
 
 @BindingAdapter("imageUrl", "placeholderRes")
 fun loadImage(view: ImageView, url: String?, @DrawableRes placeholderRes: Int?) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        view.load(url, placeholderRes ?: return)
-    else {
-        val placeholder = VectorDrawableCompat.create(view.resources, placeholderRes
-                ?: return, null) as? Drawable
-        view.load(url, placeholder ?: return)
-    }
+    view.load(url, placeholderRes ?: return)
 }
 
 @BindingAdapter("roundedImage", "placeholder")
@@ -46,9 +40,7 @@ fun setRoundedImage(view: ImageView, url: String?, placeholder: Drawable?) {
 
 @BindingAdapter("roundedImage", "placeholderRes")
 fun setRoundedImage(view: ImageView, url: String?, @DrawableRes placeholderRes: Int?) {
-    val placeholder = VectorDrawableCompat.create(view.resources, placeholderRes
-            ?: return, null) as? Drawable
-    view.roundedImage(url, placeholder ?: return)
+    view.roundedImage(url, placeholderRes ?: return)
 }
 
 @BindingAdapter("imageUrl", "onResourceReady")

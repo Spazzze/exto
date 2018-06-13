@@ -7,6 +7,7 @@ import android.net.Uri
 import android.support.annotation.AnimRes
 import android.support.annotation.DrawableRes
 import android.support.design.widget.FloatingActionButton
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -57,10 +58,26 @@ fun ImageView.load(path: File?, cacheStrategy: DiskCacheStrategy = DiskCacheStra
             .into(this)
 }
 
+fun ImageView.load(path: File?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
+    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().error(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .into(this)
+}
+
 fun ImageView.load(path: Uri?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: return)
             .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .into(this)
+}
+
+fun ImageView.load(path: Uri?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
+    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().error(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
             .into(this)
 }
 
@@ -80,9 +97,18 @@ fun ImageView.load(path: String?, placeholder: Drawable, cacheStrategy: DiskCach
 }
 
 fun ImageView.load(path: String?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
+    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
     Glide.with(context)
             .load(path ?: "")
-            .apply(RequestOptions().error(placeholderRes).placeholder(placeholderRes).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .into(this)
+}
+
+fun ImageView.roundedImage(path: String?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
+    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
+    Glide.with(context)
+            .load(path ?: "")
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).centerCrop().diskCacheStrategy(cacheStrategy).transforms(CropCircleTransformation()))
             .into(this)
 }
 
