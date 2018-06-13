@@ -44,47 +44,47 @@ fun View.animateViewChanges(@AnimRes animInId: Int, @AnimRes animIOutId: Int, ch
     })
 }
 
+fun ImageView.load(path: File?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE) {
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(true))
+            .into(this)
+}
+
+fun ImageView.load(path: File?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE) {
+    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().error(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(true))
+            .into(this)
+}
+
+fun ImageView.load(path: Uri?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE) {
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(true))
+            .into(this)
+}
+
+fun ImageView.load(path: Uri?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.NONE) {
+    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
+    Glide.with(context)
+            .load(path ?: return)
+            .apply(RequestOptions().error(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(true))
+            .into(this)
+}
+
 fun ImageView.load(path: String?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: return)
-            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
-            .into(this)
-}
-
-fun ImageView.load(path: File?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
-    Glide.with(context)
-            .load(path ?: return)
-            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
-            .into(this)
-}
-
-fun ImageView.load(path: File?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
-    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
-    Glide.with(context)
-            .load(path ?: return)
-            .apply(RequestOptions().error(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
-            .into(this)
-}
-
-fun ImageView.load(path: Uri?, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
-    Glide.with(context)
-            .load(path ?: return)
-            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
-            .into(this)
-}
-
-fun ImageView.load(path: Uri?, @DrawableRes placeholderRes: Int, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
-    val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
-    Glide.with(context)
-            .load(path ?: return)
-            .apply(RequestOptions().error(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(this)
 }
 
 fun ImageView.load(path: String?, listener: RequestListener<Drawable>, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .listener(listener)
             .into(this)
 }
@@ -92,7 +92,8 @@ fun ImageView.load(path: String?, listener: RequestListener<Drawable>, cacheStra
 fun ImageView.load(path: String?, placeholder: Drawable, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .apply(RequestOptions().error(placeholder).placeholder(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).dontAnimate().fitCenter()
+                    .diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(this)
 }
 
@@ -100,7 +101,8 @@ fun ImageView.load(path: String?, @DrawableRes placeholderRes: Int, cacheStrateg
     val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
     Glide.with(context)
             .load(path ?: "")
-            .apply(RequestOptions().error(placeholder).placeholder(placeholder).dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).dontAnimate().fitCenter()
+                    .diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(this)
 }
 
@@ -108,14 +110,16 @@ fun ImageView.roundedImage(path: String?, @DrawableRes placeholderRes: Int, cach
     val placeholder = VectorDrawableCompat.create(resources, placeholderRes, null) as? Drawable
     Glide.with(context)
             .load(path ?: "")
-            .apply(RequestOptions().error(placeholder).placeholder(placeholder).centerCrop().diskCacheStrategy(cacheStrategy).transforms(CropCircleTransformation()))
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).centerCrop().transforms(CropCircleTransformation())
+                    .diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(this)
 }
 
 fun ImageView.roundedImage(path: String?, placeholder: Drawable, cacheStrategy: DiskCacheStrategy = DiskCacheStrategy.RESOURCE) {
     Glide.with(context)
             .load(path ?: "")
-            .apply(RequestOptions().error(placeholder).placeholder(placeholder).centerCrop().diskCacheStrategy(cacheStrategy).transforms(CropCircleTransformation()))
+            .apply(RequestOptions().error(placeholder).placeholder(placeholder).centerCrop().transforms(CropCircleTransformation())
+                    .diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(this)
 }
 
@@ -123,7 +127,7 @@ fun ImageView.loadAsBitmap(path: String?, onResourceReady: (Bitmap) -> Unit, cac
     Glide.with(context)
             .asBitmap()
             .load(path ?: "")
-            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                     onResourceReady(bitmap)
@@ -137,7 +141,7 @@ fun ImageView.loadAsBitmap(path: String?, listener: RequestListener<Bitmap>, onR
             .asBitmap()
             .load(path ?: "")
             .listener(listener)
-            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy))
+            .apply(RequestOptions().dontAnimate().fitCenter().diskCacheStrategy(cacheStrategy).skipMemoryCache(cacheStrategy == DiskCacheStrategy.NONE))
             .into(object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                     onResourceReady(bitmap)
