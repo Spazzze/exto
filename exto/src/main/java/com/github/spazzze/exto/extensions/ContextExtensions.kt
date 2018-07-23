@@ -6,11 +6,16 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.DimenRes
+import android.support.annotation.DrawableRes
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.content.FileProvider
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -73,3 +78,6 @@ fun Context.getPackageInfo(): PackageInfo = try {
 }
 
 fun Context.getUriFromFile(authority: String, file: File) = FileProvider.getUriForFile(this, authority, file)
+
+fun Context.createDrawable(@DrawableRes drawableRes: Int): Drawable = VectorDrawableCompat.create(resources, drawableRes, null)
+        ?: GradientDrawable().apply { shape = GradientDrawable.RECTANGLE; setColor(Color.WHITE) }
