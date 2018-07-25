@@ -13,8 +13,8 @@ fun <T> MutableCollection<T>.replaceAllBy(list: List<T>) =
         } else false
 
 @Synchronized
-inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(destination: C, transform: (T) -> R) =
-        destination.replaceAllBy(this.mapTo(java.util.ArrayList<R>(), { transform(it) }))
+inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(destination: C, transform: (T) -> R): Boolean =
+        destination.replaceAllBy(this.mapTo(ArrayList()) { transform(it) })
 
 @Synchronized
 fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) {
@@ -27,3 +27,7 @@ fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) {
 @Synchronized
 fun <T, V> MutableMap<T, V>.removeWithAction(key: T, action: (V) -> Unit) = remove(key)?.let(action)
         ?: Unit
+
+inline fun <T> Collection<T>.forEachReversed(action: (T) -> Unit) {
+    for (n in size - 1 downTo 0) action(elementAt(n))
+}
