@@ -1,5 +1,10 @@
 package com.github.spazzze.exto.extensions
 
+import android.support.annotation.IntRange
+import java.math.BigDecimal
+import java.math.RoundingMode
+
+
 /**
  * @author Space
  * @date 21.03.2017
@@ -36,3 +41,5 @@ inline fun tryThis(actionOnTry: () -> Unit, actionOnCatch: () -> Unit = {}, mess
         actionOnCatch()
     }
 }
+
+fun Double.round(@IntRange(from = 0, to = 15) decimalsAfterPoint: Int) = BigDecimal.valueOf(this).setScale(decimalsAfterPoint, RoundingMode.HALF_UP)

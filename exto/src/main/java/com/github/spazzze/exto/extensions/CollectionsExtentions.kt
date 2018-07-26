@@ -20,7 +20,7 @@ inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(dest
 fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) {
     if (list != this.values) {
         clear()
-        list.forEach { this.put(transform(it), it) }
+        list.forEach { this[transform(it)] = it }
     }
 }
 
