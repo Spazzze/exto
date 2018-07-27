@@ -25,9 +25,11 @@ fun Fragment.callTo(url: String) = activity.callTo(url)
 
 fun Fragment.takePicture(file: File, intentId: Int) = activity.takePicture(file, intentId, this)
 
-fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0) = activity.takeVideo(file, intentId, maximumDurationInSeconds, this)
+fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true) =
+        activity.takeVideo(file, intentId, maximumDurationInSeconds, isHighQuality, this)
 
-fun Fragment.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0) = activity.takeVideo(intentId, maximumDurationInSeconds, this)
+fun Fragment.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true) =
+        activity.takeVideo(intentId, maximumDurationInSeconds, isHighQuality, this)
 
 fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = activity.chooseFromGallery(titleRes, intentId, this)
 

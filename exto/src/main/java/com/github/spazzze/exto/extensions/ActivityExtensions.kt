@@ -66,10 +66,10 @@ fun Activity.takePicture(file: File, intentId: Int, fragment: Fragment? = null) 
     Timber.e(e, "takePhoto intent error: ")
 }
 
-fun Activity.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0, fragment: Fragment? = null) = try {
+fun Activity.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true, fragment: Fragment? = null) = try {
     with(Intent(MediaStore.ACTION_VIDEO_CAPTURE)) {
         putExtra(MediaStore.EXTRA_DURATION_LIMIT, if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30)
-        putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+        putExtra(MediaStore.EXTRA_VIDEO_QUALITY, if (isHighQuality) 1 else 0)
         putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
         fragment?.startActivityForResult(this, intentId) ?: startActivityForResult(this, intentId)
     }
@@ -77,10 +77,10 @@ fun Activity.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int 
     Timber.e(e, "takeVideo intent error: ")
 }
 
-fun Activity.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0, fragment: Fragment? = null) = try {
+fun Activity.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true, fragment: Fragment? = null) = try {
     with(Intent(MediaStore.ACTION_VIDEO_CAPTURE)) {
         putExtra(MediaStore.EXTRA_DURATION_LIMIT, if (maximumDurationInSeconds > 0) maximumDurationInSeconds else 30)
-        putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1)
+        putExtra(MediaStore.EXTRA_VIDEO_QUALITY, if (isHighQuality) 1 else 0)
         fragment?.startActivityForResult(this, intentId) ?: startActivityForResult(this, intentId)
     }
 } catch (e: Exception) {
