@@ -31,15 +31,25 @@ fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int 
 fun Fragment.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true) =
         activity.takeVideo(intentId, maximumDurationInSeconds, isHighQuality, this)
 
-fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = activity.chooseFromGallery(titleRes, intentId, this)
+fun Fragment.chooseImageContent(@StringRes titleRes: Int, intentId: Int) = activity.chooseImageContent(titleRes, intentId, this)
 
-fun Fragment.chooseAudio(@StringRes titleRes: Int, intentId: Int) = activity.chooseAudio(titleRes, intentId, this)
+fun Fragment.pickImage(@StringRes titleRes: Int, intentId: Int) = activity.pickImage(titleRes, intentId, this)
 
-fun Fragment.chooseMp3Audio(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp3Audio(titleRes, intentId, this)
+fun Fragment.chooseAudioContent(@StringRes titleRes: Int, intentId: Int) = activity.chooseAudioContent(titleRes, intentId, this)
 
-fun Fragment.chooseVideo(@StringRes titleRes: Int, intentId: Int) = activity.chooseVideo(titleRes, intentId, this)
+fun Fragment.pickAudio(@StringRes titleRes: Int, intentId: Int) = activity.pickAudio(titleRes, intentId, this)
 
-fun Fragment.chooseMp4Video(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp4Video(titleRes, intentId, this)
+fun Fragment.chooseMp3AudioContent(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp3AudioContent(titleRes, intentId, this)
+
+fun Fragment.pickMp3Audio(@StringRes titleRes: Int, intentId: Int) = activity.pickMp3Audio(titleRes, intentId, this)
+
+fun Fragment.chooseVideoContent(@StringRes titleRes: Int, intentId: Int) = activity.chooseVideoContent(titleRes, intentId, this)
+
+fun Fragment.pickVideo(@StringRes titleRes: Int, intentId: Int) = activity.pickVideo(titleRes, intentId, this)
+
+fun Fragment.chooseMp4VideoContent(@StringRes titleRes: Int, intentId: Int) = activity.chooseMp4VideoContent(titleRes, intentId, this)
+
+fun Fragment.pickMp4Video(@StringRes titleRes: Int, intentId: Int) = activity.pickMp4Video(titleRes, intentId, this)
 
 inline fun <T : Fragment> FragmentManager.replaceFragment(containerId: Int, addToBackStack: Boolean,
                                                           tag: String?, createNewFragment: () -> T) =
