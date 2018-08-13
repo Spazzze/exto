@@ -12,6 +12,7 @@ import android.graphics.drawable.GradientDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Handler
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
@@ -81,3 +82,9 @@ fun Context.getUriFromFile(authority: String, file: File) = FileProvider.getUriF
 
 fun Context.createDrawable(@DrawableRes drawableRes: Int): Drawable = VectorDrawableCompat.create(resources, drawableRes, null)
         ?: GradientDrawable().apply { shape = GradientDrawable.RECTANGLE; setColor(Color.WHITE) }
+
+fun Context.getFileSizeInBytes(uri: Uri): Long = contentResolver.query(uri, null, null, null, null).use {
+    val sizeIndex = it.getColumnIndex(OpenableColumns.SIZE)
+    it.moveToFirst()
+    it.getLong(sizeIndex)
+}

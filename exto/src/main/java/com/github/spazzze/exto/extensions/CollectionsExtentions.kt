@@ -14,7 +14,7 @@ fun <T> MutableCollection<T>.replaceAllBy(list: List<T>) =
 
 @Synchronized
 inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(destination: C, transform: (T) -> R): Boolean =
-        destination.replaceAllBy(this.mapTo(ArrayList()) { transform(it) })
+        destination.replaceAllBy(this.mapTo(mutableListOf()) { transform(it) })
 
 @Synchronized
 fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) {
