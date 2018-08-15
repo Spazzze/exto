@@ -33,6 +33,12 @@ inline fun <T, R> T.execute(block: T.() -> R) {
     block()
 }
 
+/**
+ * Calls the specified function [block] if condition is true
+ * @returns Unit.
+ */
+inline fun <R> executeIf(condition: Boolean, block: () -> R): Unit = condition.execute { if (this) block() }
+
 inline fun tryThis(actionOnTry: () -> Unit, actionOnCatch: () -> Unit = {}, message: String = "") {
     try {
         actionOnTry()
