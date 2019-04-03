@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import com.github.spazzze.exto.extensions.execute
 import com.github.spazzze.exto.view.fragments.interfaces.IBaseFragment
 import com.github.spazzze.exto.view.interfaces.IBaseView
@@ -17,7 +18,9 @@ import com.github.spazzze.exto.view.interfaces.IBaseView
 
 abstract class BaseFragment<A : IBaseView> : Fragment(), IBaseFragment<A> {
 
-    override val ctx: Context get() = context
+    final override val ctx: Context get() = context
+
+    final override val currentActivity: FragmentActivity? get() = activity
 
     override var parentActivity: A? = null
 

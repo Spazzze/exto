@@ -1,6 +1,7 @@
 package com.github.spazzze.exto.view.interfaces
 
 import android.content.Context
+import android.support.v4.app.FragmentActivity
 
 /**
  * @author Space
@@ -10,4 +11,6 @@ import android.content.Context
 interface IView {
 
     val ctx: Context
+
+    val currentActivity: FragmentActivity?
 }

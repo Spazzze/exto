@@ -11,6 +11,8 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     final override val ctx: Context get() = this
 
+    final override val currentActivity get() = this
+
     override fun showMessage(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
     override fun showMessage(@StringRes messageId: Int) = showMessage(getString(messageId))
