@@ -4,7 +4,6 @@ import android.databinding.ObservableArrayList
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.PagerAdapter
 import com.github.spazzze.exto.extensions.onChange
 import com.github.spazzze.exto.extensions.replaceAllBy
 
@@ -27,8 +26,6 @@ abstract class BindingPagerAdapter<T : Any>(fm: FragmentManager) : FragmentState
     override fun getItem(position: Int) = createFragment(position)
 
     override fun getPageTitle(position: Int) = getItemTitle(position)
-
-    override fun getItemPosition(item: Any?): Int = PagerAdapter.POSITION_NONE
 
     operator fun get(position: Int): T = items[position]
 

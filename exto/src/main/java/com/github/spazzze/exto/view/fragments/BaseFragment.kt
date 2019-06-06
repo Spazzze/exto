@@ -18,7 +18,7 @@ import com.github.spazzze.exto.view.interfaces.IBaseView
 
 abstract class BaseFragment<A : IBaseView> : Fragment(), IBaseFragment<A> {
 
-    final override val ctx: Context get() = context
+    final override val ctx: Context get() = context!!
 
     final override val currentActivity: FragmentActivity? get() = activity
 
@@ -66,7 +66,7 @@ abstract class BaseFragment<A : IBaseView> : Fragment(), IBaseFragment<A> {
         parentActivity?.showDialogAlert(titleId, messageId, onPositive, onCancel)
     }
 
-    override fun finish() = execute { activity.onBackPressed() }
+    override fun finish() = execute { activity?.onBackPressed() }
 
     override fun showAlert(message: String) = showMessage(message)
 

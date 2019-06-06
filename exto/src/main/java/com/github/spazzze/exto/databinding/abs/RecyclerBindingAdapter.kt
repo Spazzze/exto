@@ -29,8 +29,8 @@ class RecyclerBindingAdapter<I : IRecyclerItemViewModel>(override val bindingHel
         return BindingHolder(DataBindingUtil.inflate<ViewDataBinding>(inflater, bindingHelper.layoutRes, parent, false))
     }
 
-    override fun onBindViewHolder(holder: BindingHolder?, position: Int) {
-        holder?.binding?.run {
+    override fun onBindViewHolder(holder: BindingHolder, position: Int) {
+        holder.binding.run {
             setVariable(bindingHelper.variableId, items[position])
             executePendingBindings()
         }
