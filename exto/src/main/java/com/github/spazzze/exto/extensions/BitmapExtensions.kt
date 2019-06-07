@@ -1,11 +1,15 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.TargetApi
 import android.content.ContentResolver
 import android.graphics.Bitmap
 import android.graphics.Bitmap.*
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.drawable.VectorDrawable
 import android.net.Uri
+import android.os.Build
 import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
@@ -13,6 +17,7 @@ import android.renderscript.ScriptIntrinsicBlur
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
+
 
 /**
  * @author Space
@@ -75,4 +80,12 @@ fun ContentResolver.getResizedBitmap(imageUri: Uri, maxImagePixelSize: Int): Bit
         if (maxImagePixelSize > 0) inSampleSize = Math.max(outWidth, outHeight) / maxImagePixelSize
     }
     return openInputStream(imageUri).use { BitmapFactory.decodeStream(it, null, options) }
+}
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun VectorDrawable.toBitmap(): Bitmap = with(createBitmap(intrinsicWidth, intrinsicHeight, Config.ARGB_8888)) {
+    val canvas = Canvas(this)
+    setBounds(0, 0, canvas.width, canvas.height)
+    draw(canvas)
+    this@with
 }

@@ -1,22 +1,28 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.VectorDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.provider.OpenableColumns
 import android.provider.Settings
 import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
 import android.support.graphics.drawable.VectorDrawableCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.util.DisplayMetrics
 import android.util.TypedValue
@@ -88,3 +94,10 @@ fun Context.getFileSizeInBytes(uri: Uri): Long = contentResolver.query(uri, null
     it.moveToFirst()
     it.getLong(sizeIndex)
 } ?: 0
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun Context.createBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap = when (val drawable = ContextCompat.getDrawable(this, drawableId)) {
+    is BitmapDrawable -> drawable.bitmap
+    is VectorDrawable -> drawable.toBitmap()
+    else -> throw IllegalArgumentException("Unsupported drawable type: $drawable")
+}
