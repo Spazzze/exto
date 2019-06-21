@@ -17,7 +17,7 @@ fun <T : Any> setPagerItems(pager: ViewPager, items: List<T>?) {
 
 @BindingAdapter("currentPage")
 fun setPage(pager: ViewPager, position: Int) {
-    if (pager.childCount > position) pager.currentItem = position
+    if (pager.adapter?.count ?: 0 > position) pager.currentItem = position
 }
 
 @Suppress("UNCHECKED_CAST")
