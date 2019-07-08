@@ -78,10 +78,10 @@ fun Context.isNetworkAvailable() = try {
     false
 }
 
-fun Context.getPackageInfo(): PackageInfo = try {
+fun Context.getPackageInfoOrNull(): PackageInfo? = try {
     packageManager.getPackageInfo(packageName, 0)
 } catch (e: PackageManager.NameNotFoundException) {
-    throw RuntimeException(e)
+    null
 }
 
 fun Context.getUriFromFile(authority: String, file: File) = FileProvider.getUriForFile(this, authority, file)
