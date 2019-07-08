@@ -24,6 +24,7 @@ import android.support.annotation.DrawableRes
 import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.support.v4.content.pm.PackageInfoCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
@@ -84,6 +85,8 @@ fun Context.getPackageInfoOrNull(): PackageInfo? = try {
     e.reportToDeveloper("Context.getPackageInfoOrNull cannot retrieve info")
     null
 }
+
+fun Context.getAppLongVersionCode() = getPackageInfoOrNull()?.run { PackageInfoCompat.getLongVersionCode(this) } ?: -1L
 
 fun Context.getUriFromFile(authority: String, file: File) = FileProvider.getUriForFile(this, authority, file)
 
