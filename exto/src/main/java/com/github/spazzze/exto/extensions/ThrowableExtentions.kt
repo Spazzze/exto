@@ -1,5 +1,6 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.github.spazzze.exto.R
 import com.github.spazzze.exto.errors.*
@@ -27,15 +28,13 @@ fun Throwable.networkErrorMsgId(): Int = when {
     else -> R.string.error_unknown_server_error
 }
 
-fun Throwable.reportToDeveloper(clazz: String) {
-    val msg = "$clazz failure in subscription: "
-    when {
-        this is InformativeException ||
-                this is NoNetworkException ||
-                this is SocketTimeoutException -> Log.d("DEV", "$msg ${this.javaClass.simpleName}")
-        this is NotFoundException ||
-                this is WrongCredentialsException ||
-                this is NotAuthenticatedException -> Log.e("DEV", "$msg ${this.javaClass.simpleName}")
-        else -> Timber.e(this, "$msg $this")
-    }
+@SuppressLint("LogNotTimber")
+fun Throwable.reportToDeveloper(msg: String) = when {
+    this is InformativeException ||
+            this is NoNetworkException ||
+            this is SocketTimeoutException -> Log.d("DEV", "$msg ${this.javaClass.simpleName}").run { Unit }
+    this is NotFoundException ||
+            this is WrongCredentialsException ||
+            this is NotAuthenticatedException -> Log.e("DEV", "$msg ${this.javaClass.simpleName}").run { Unit }
+    else -> Timber.e(this, "$msg $this")
 }

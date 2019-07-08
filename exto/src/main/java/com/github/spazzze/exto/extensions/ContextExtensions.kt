@@ -81,6 +81,7 @@ fun Context.isNetworkAvailable() = try {
 fun Context.getPackageInfoOrNull(): PackageInfo? = try {
     packageManager.getPackageInfo(packageName, 0)
 } catch (e: PackageManager.NameNotFoundException) {
+    e.reportToDeveloper("Context.getPackageInfoOrNull cannot retrieve info")
     null
 }
 

@@ -51,7 +51,7 @@ inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -
 
     override fun onCompleted() = Unit
 
-    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass")
+    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass error in subscription")
 }
 
 inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -> Unit,
@@ -61,7 +61,7 @@ inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -
 
     override fun onCompleted() = onCompleteAction()
 
-    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass")
+    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass error in subscription")
 }
 
 inline fun <T, reified A : Any> A.reportingObserver(crossinline onErrorAction: (Throwable) -> Unit) = object : Observer<T> {
@@ -71,7 +71,7 @@ inline fun <T, reified A : Any> A.reportingObserver(crossinline onErrorAction: (
     override fun onCompleted() = Unit
 
     override fun onError(e: Throwable) {
-        e.reportToDeveloper("$javaClass")
+        e.reportToDeveloper("$javaClass error in subscription")
         onErrorAction(e)
     }
 }
@@ -83,7 +83,7 @@ inline fun <T, reified A : Any> A.reportingObserver(crossinline onNextAction: (T
     override fun onCompleted() = Unit
 
     override fun onError(e: Throwable) {
-        e.reportToDeveloper("$javaClass")
+        e.reportToDeveloper("$javaClass error in subscription")
         onErrorAction(e)
     }
 }
@@ -96,7 +96,7 @@ inline fun <T, reified A : Any> A.reportingObserver(crossinline onNextAction: (T
     override fun onCompleted() = onCompleteAction()
 
     override fun onError(e: Throwable) {
-        e.reportToDeveloper("$javaClass")
+        e.reportToDeveloper("$javaClass error in subscription")
         onErrorAction(e)
     }
 }
