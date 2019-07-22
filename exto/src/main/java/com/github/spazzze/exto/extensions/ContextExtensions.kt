@@ -100,8 +100,8 @@ fun Context.getFileSizeInBytes(uri: Uri): Long = contentResolver.query(uri, null
 } ?: 0
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-fun Context.createBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap = when (val drawable = ContextCompat.getDrawable(this, drawableId)) {
-    is BitmapDrawable -> drawable.bitmap
-    is VectorDrawable -> drawable.toBitmap()
+fun Context.createBitmapFromDrawable(@DrawableRes drawableId: Int, biggestSidePixelSize: Int = -1): Bitmap = when (val drawable = ContextCompat.getDrawable(this, drawableId)) {
+    is BitmapDrawable -> drawable.bitmap.apply { if (biggestSidePixelSize > 0) resize(biggestSidePixelSize) }
+    is VectorDrawable -> if (biggestSidePixelSize > 0) drawable.toBitmap(biggestSidePixelSize) else drawable.toBitmap()
     else -> throw IllegalArgumentException("Unsupported drawable type: $drawable")
 }

@@ -35,6 +35,8 @@ operator fun ObservableInt.inc(): ObservableInt = apply { set(get() + 1) }
 
 operator fun ObservableInt.dec(): ObservableInt = apply { set(get() - 1) }
 
+operator fun ObservableInt.plus(increment: Int) = ObservableInt(get() + increment)
+
 fun ObservableInt.incBy(count: Int): ObservableInt = apply { set(get() + count) }
 
 fun ObservableBoolean.invert() = apply { set(!get()) }

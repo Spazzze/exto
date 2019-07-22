@@ -49,3 +49,9 @@ inline fun tryThis(actionOnTry: () -> Unit, actionOnCatch: () -> Unit = {}, mess
 }
 
 fun Double.round(@IntRange(from = 0, to = 15) decimalsAfterPoint: Int) = BigDecimal.valueOf(this).setScale(decimalsAfterPoint, RoundingMode.HALF_UP)
+
+inline fun <reified T : Enum<T>> T.next(): T {
+    val values = enumValues<T>()
+    val nextOrdinal = (ordinal + 1) % values.size
+    return values[nextOrdinal]
+}

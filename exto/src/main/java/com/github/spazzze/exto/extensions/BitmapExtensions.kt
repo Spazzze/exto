@@ -60,10 +60,10 @@ fun Bitmap.rotate(degree: Float): Bitmap {
     return createBitmap(this, 0, 0, width, height, matrix, false)
 }
 
-fun Bitmap.resize(size: Int) = (width.toFloat() / height.toFloat()).let {
+fun Bitmap.resize(biggestSidePixelSize: Int) = (width.toFloat() / height.toFloat()).let {
     when (it > 1f) {
-        true -> Bitmap.createScaledBitmap(this, size, (size / it).toInt(), true)
-        else -> Bitmap.createScaledBitmap(this, (size * it).toInt(), size, true)
+        true -> createScaledBitmap(this, biggestSidePixelSize, (biggestSidePixelSize / it).toInt(), true)
+        else -> createScaledBitmap(this, (biggestSidePixelSize * it).toInt(), biggestSidePixelSize, true)
     }
 }!!
 
@@ -72,7 +72,7 @@ fun Bitmap.compressInto(format: CompressFormat, quality: Int, file: File) {
 }
 
 @Throws(FileNotFoundException::class)
-fun ContentResolver.getResizedBitmap(imageUri: Uri, maxImagePixelSize: Int): Bitmap {
+fun ContentResolver.getResizedBitmap(imageUri: Uri, maxImagePixelSize: Int): Bitmap? {
     val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
     openInputStream(imageUri).use { BitmapFactory.decodeStream(it, null, options) }
     options.apply {
@@ -88,4 +88,16 @@ fun VectorDrawable.toBitmap(): Bitmap = with(createBitmap(intrinsicWidth, intrin
     setBounds(0, 0, canvas.width, canvas.height)
     draw(canvas)
     this@with
+}
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun VectorDrawable.toBitmap(biggestSidePixelSize: Int): Bitmap = with(intrinsicWidth.toFloat() / intrinsicHeight.toFloat()) {
+    when {
+        this > 1f -> createBitmap(biggestSidePixelSize, (biggestSidePixelSize / this).toInt(), Config.ARGB_8888)
+        else -> createBitmap((biggestSidePixelSize * this).toInt(), biggestSidePixelSize, Config.ARGB_8888)
+    }
+}.also {
+    val canvas = Canvas(it)
+    setBounds(0, 0, canvas.width, canvas.height)
+    draw(canvas)
 }
