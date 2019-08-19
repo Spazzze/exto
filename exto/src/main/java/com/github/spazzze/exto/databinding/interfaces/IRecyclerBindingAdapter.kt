@@ -11,5 +11,5 @@ interface IRecyclerBindingAdapter<I : IRecyclerItemViewModel> {
 
     val items: List<I>
 
-    fun setItems(newItems: List<I>)
+    fun setItems(newItems: List<I>): Boolean
 }

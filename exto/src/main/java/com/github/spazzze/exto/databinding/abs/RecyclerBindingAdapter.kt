@@ -18,16 +18,14 @@ import com.github.spazzze.exto.extensions.replaceAllBy
  * @date 24.12.2016
  */
 
-class RecyclerBindingAdapter<I : IRecyclerItemViewModel>(override val bindingHelper: IRecyclerBindingHelper<I>,
-                                                         override val items: ObservableList<I> = ObservableArrayList<I>()) :
+open class RecyclerBindingAdapter<I : IRecyclerItemViewModel>(override val bindingHelper: IRecyclerBindingHelper<I>,
+                                                              override val items: ObservableList<I> = ObservableArrayList()) :
         RecyclerView.Adapter<RecyclerBindingAdapter.BindingHolder>(), IRecyclerBindingAdapter<I> {
 
     private val diffUtilCallback = DiffUtilCallback<I>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return BindingHolder(DataBindingUtil.inflate<ViewDataBinding>(inflater, bindingHelper.layoutRes, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            BindingHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), bindingHelper.layoutRes, parent, false))
 
     override fun onBindViewHolder(holder: BindingHolder, position: Int) {
         holder.binding.run {
@@ -38,8 +36,8 @@ class RecyclerBindingAdapter<I : IRecyclerItemViewModel>(override val bindingHel
 
     override fun getItemCount() = items.size
 
-    override fun setItems(newItems: List<I>) {
-        if (items.replaceAllBy(newItems)) dispatchUpdates(newItems)
+    override fun setItems(newItems: List<I>) = synchronized(items) {
+        if (items.replaceAllBy(newItems)) dispatchUpdates(newItems).run { true } else false
     }
 
     private fun dispatchUpdates(newItems: List<I>) =

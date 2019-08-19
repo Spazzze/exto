@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerBindingAdapter
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerBindingHelper
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerItemViewModel
-import com.github.spazzze.exto.extensions.execute
 import com.github.spazzze.exto.extensions.replaceAllBy
 
 
@@ -39,5 +38,5 @@ class ArrayDatabindingAdapter<I : IRecyclerItemViewModel>(context: Context,
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) = getView(position, convertView, parent)
 
-    override fun setItems(newItems: List<I>) = execute { items.replaceAllBy(newItems) }
+    override fun setItems(newItems: List<I>) = items.replaceAllBy(newItems)
 }

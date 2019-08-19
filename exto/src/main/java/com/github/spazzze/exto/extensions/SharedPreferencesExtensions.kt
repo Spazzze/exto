@@ -28,7 +28,7 @@ class Preference<T>(private val key: String,
         is Int -> prefs.getInt(name, default) as U
         is Boolean -> prefs.getBoolean(name, default) as U
         is Float -> prefs.getFloat(name, default) as U
-        else -> throw IllegalArgumentException("This type can be saved into Preferences")
+        else -> throw IllegalArgumentException("This type can't be saved into Preferences")
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -39,7 +39,7 @@ class Preference<T>(private val key: String,
             is Int -> putInt(name, value)
             is Boolean -> putBoolean(name, value)
             is Float -> putFloat(name, value)
-            else -> throw IllegalArgumentException("This type can be saved into Preferences")
+            else -> throw IllegalArgumentException("This type can't be saved into Preferences")
         }.apply()
     }
 }
