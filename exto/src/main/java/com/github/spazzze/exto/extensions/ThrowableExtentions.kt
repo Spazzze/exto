@@ -1,12 +1,14 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.github.spazzze.exto.R
-import com.github.spazzze.exto.errors.NoNetworkException
-import com.github.spazzze.exto.errors.NotAuthenticatedException
-import com.github.spazzze.exto.errors.NotFoundException
-import com.github.spazzze.exto.errors.WrongCredentialsError
+import com.github.spazzze.exto.errors.*
+import com.github.spazzze.exto.network.RetrofitException
+import retrofit2.HttpException
+import retrofit2.Retrofit
 import timber.log.Timber
+import java.io.IOException
 import java.net.SocketTimeoutException
 
 /**
@@ -14,20 +16,25 @@ import java.net.SocketTimeoutException
  * @date 29.01.2017
  */
 
+fun Throwable.asRetrofitException(retrofit: Retrofit) = when (this) {
+    is HttpException -> RetrofitException.httpError(this, this.response(), retrofit)
+    is IOException -> RetrofitException.networkError(this, retrofit)
+    else -> RetrofitException.unexpectedError(this, retrofit)
+}
+
 fun Throwable.networkErrorMsgId(): Int = when {
     this is NoNetworkException -> R.string.error_no_internet
     this is SocketTimeoutException -> R.string.error_no_internet
     else -> R.string.error_unknown_server_error
 }
 
-fun Throwable.reportToDeveloper(clazz: String) {
-    val msg = "$clazz failure in subscription: "
-    when {
-        this is NotFoundException -> Log.e("DEV", "$msg NotFoundException")
-        this is WrongCredentialsError -> Log.e("DEV", "$msg WrongCredentialsError")
-        this is NotAuthenticatedException -> Log.e("DEV", "$msg NotAuthenticatedException")
-        this is NoNetworkException -> Log.e("DEV", "$msg NoNetworkException")
-        this is SocketTimeoutException -> Log.e("DEV", "$msg SocketTimeoutException")
-        else -> Timber.e("DEV", "$msg $this")
-    }
+@SuppressLint("LogNotTimber")
+fun Throwable.reportToDeveloper(msg: String) = when {
+    this is InformativeException ||
+            this is NoNetworkException ||
+            this is SocketTimeoutException -> Log.d("DEV", "$msg ${this.javaClass.simpleName}").run { Unit }
+    this is NotFoundException ||
+            this is WrongCredentialsException ||
+            this is NotAuthenticatedException -> Log.e("DEV", "$msg ${this.javaClass.simpleName}").run { Unit }
+    else -> Timber.e(this, "$msg $this")
 }

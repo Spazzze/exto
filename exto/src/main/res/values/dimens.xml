@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fonts // English and English-like scripts -->
+    <dimen name="font_10">10sp</dimen>
+    <dimen name="font_12">12sp</dimen>
+    <dimen name="font_14">14sp</dimen>
+    <dimen name="font_16">16sp</dimen>
+    <dimen name="font_17">17sp</dimen>
+    <dimen name="font_18">18sp</dimen>
+    <dimen name="font_20">20sp</dimen>
+    <dimen name="font_22">22sp</dimen>
+    <dimen name="font_24">24sp</dimen>
+    <dimen name="font_34">34sp</dimen>
+    <dimen name="font_40">40sp</dimen>
+    <dimen name="font_45">45sp</dimen>
+    <dimen name="font_56">56sp</dimen>
+    <dimen name="font_112">112sp</dimen>
+
+    <!-- Sizes // Determines the height of content blocks.-->
+    <dimen name="size_2">2dp</dimen>
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+    <dimen name="size_24">24dp</dimen>
+    <dimen name="size_32">32dp</dimen>
+    <dimen name="size_40">40dp</dimen>
+    <dimen name="size_48">48dp</dimen>
+    <dimen name="size_56">56dp</dimen>
+    <dimen name="size_64">64dp</dimen>
+    <dimen name="size_68">64dp</dimen>
+    <dimen name="size_72">72dp</dimen>
+    <dimen name="size_80">80dp</dimen>
+    <dimen name="size_88">88dp</dimen>
+    <dimen name="size_112">112dp</dimen>
+    <dimen name="size_128">128dp</dimen>
+    <dimen name="size_132">132dp</dimen>
+
+    <!-- Spaces // Determine placement of type and icons from edges of elements. -->
+    <dimen name="spacing_4">4dp</dimen>
+    <dimen name="spacing_8">8dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_24">24dp</dimen>
+    <dimen name="spacing_28">28dp</dimen>
+    <dimen name="spacing_32">32dp</dimen>
+    <dimen name="spacing_40">40dp</dimen>
+    <dimen name="spacing_48">48dp</dimen>
+    <dimen name="spacing_56">56dp</dimen>
+    <dimen name="spacing_64">64dp</dimen>
+    <dimen name="spacing_72">72dp</dimen>
+    <dimen name="spacing_80">80dp</dimen>
+    <dimen name="spacing_96">96dp</dimen>
+
+    <!-- Corner Radius -->
+    <dimen name="corner_radius_2">2dp</dimen>
+    <dimen name="corner_radius_4">4dp</dimen>
+    <dimen name="corner_radius_8">8dp</dimen>
+
+    <!-- Elevation -->
+    <dimen name="elevation_4">4dp</dimen>
+    <dimen name="elevation_6">6dp</dimen>
+    <dimen name="elevation_8">8dp</dimen>
+
+    <!-- Lines -->
+    <dimen name="line_size_1">1dp</dimen>
+
+    <dimen name="progressbar_size">56dp</dimen>
+</resources>

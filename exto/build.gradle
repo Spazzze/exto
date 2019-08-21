@@ -29,7 +29,7 @@ ext {
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
+        Properties versionProps = new Properties()
         versionProps.load(new FileInputStream(versionPropsFile))
         def code = versionProps['VERSION_CODE'].toInteger() + 1
         libraryVersion = versionProps['VERSION_NAME'].toString() + code
@@ -40,31 +40,20 @@ ext {
     }
 }
 
-ext.gradle_version = '2.3.3'
-ext.supportLibs_version = '25.3.1'
+ext.supportLibs_version = '28.0.0'
 ext.rx_version = '1.2.1'
-ext.glide_version = '3.7.0'
-ext.timber_version = '4.5.1'
+ext.glide_version = '4.3.1'
+ext.timber_version = '4.7.0'
 ext.funktionale_version = '1.1'
-
-buildscript {
-    ext.kotlin_version = '1.1.4-2'
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
+ext.retrofit_version = '2.3.0'
+ext.okHttp3_version = '3.8.1'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -78,23 +67,38 @@ android {
     dataBinding {
         enabled = true
     }
-    kapt {
-        generateStubs = true
-    }
     lintOptions {
         abortOnError false
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "io.reactivex:rxandroid:$rx_version"
-    compile "com.android.support:appcompat-v7:$supportLibs_version"
-    compile "com.android.support:design:$supportLibs_version"
-    compile "com.github.bumptech.glide:glide:$glide_version"
-    compile "com.jakewharton.timber:timber:$timber_version"
-    compile "org.funktionale:funktionale-option:$funktionale_version"
-    kapt "com.android.databinding:compiler:$gradle_version"
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    // Rx
+    implementation "io.reactivex:rxandroid:$rx_version"
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version") { exclude module: 'okhttp' }
+    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+
+    // OkHttp3
+    implementation "com.squareup.okhttp3:okhttp:$okHttp3_version"
+
+    // Support
+    implementation "com.android.support:appcompat-v7:$supportLibs_version"
+    implementation "com.android.support:design:$supportLibs_version"
+
+    // Graph
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    // Developer Tools
+    implementation "com.jakewharton.timber:timber:$timber_version"
+    implementation "org.funktionale:funktionale-option:$funktionale_version"
 }
 
 apply plugin: 'com.github.dcendents.android-maven'

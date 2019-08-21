@@ -13,10 +13,9 @@ import kotlin.reflect.KProperty
 
 class Preference<T>(private val key: String,
                     private val default: T,
-                    private val prefsName: String,
                     private val context: Context) : ReadWriteProperty<Any?, T> {
 
-    private val prefs: SharedPreferences by lazy { context.getSharedPreferences(prefsName, Context.MODE_PRIVATE) }
+    private val prefs: SharedPreferences by lazy { context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE) }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T = findPreference(key, default)
 
@@ -29,7 +28,7 @@ class Preference<T>(private val key: String,
         is Int -> prefs.getInt(name, default) as U
         is Boolean -> prefs.getBoolean(name, default) as U
         is Float -> prefs.getFloat(name, default) as U
-        else -> throw IllegalArgumentException("This type can be saved into Preferences")
+        else -> throw IllegalArgumentException("This type can't be saved into Preferences")
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -40,7 +39,7 @@ class Preference<T>(private val key: String,
             is Int -> putInt(name, value)
             is Boolean -> putBoolean(name, value)
             is Float -> putFloat(name, value)
-            else -> throw IllegalArgumentException("This type can be saved into Preferences")
+            else -> throw IllegalArgumentException("This type can't be saved into Preferences")
         }.apply()
     }
 }

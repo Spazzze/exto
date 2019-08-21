@@ -1,17 +1,34 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.VectorDrawable
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.support.annotation.DimenRes
+import android.support.annotation.DrawableRes
+import android.support.graphics.drawable.VectorDrawableCompat
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
+import android.support.v4.content.pm.PackageInfoCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import java.io.File
 
 
 /**
@@ -54,6 +71,37 @@ fun Context.getThemeResource(resourceId: Int) = TypedValue().run {
     data
 }
 
-fun Context.isNetworkAvailable() = (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
-        ?.activeNetworkInfo?.isConnectedOrConnecting
-        ?: false
+fun Context.isNetworkAvailable() = try {
+    (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
+            ?.activeNetworkInfo?.isConnectedOrConnecting
+            ?: false
+} catch (e: java.lang.Exception) {
+    false
+}
+
+fun Context.getPackageInfoOrNull(): PackageInfo? = try {
+    packageManager.getPackageInfo(packageName, 0)
+} catch (e: PackageManager.NameNotFoundException) {
+    e.reportToDeveloper("Context.getPackageInfoOrNull cannot retrieve info")
+    null
+}
+
+fun Context.getAppLongVersionCode() = getPackageInfoOrNull()?.run { PackageInfoCompat.getLongVersionCode(this) } ?: -1L
+
+fun Context.getUriFromFile(authority: String, file: File) = FileProvider.getUriForFile(this, authority, file)
+
+fun Context.createDrawable(@DrawableRes drawableRes: Int): Drawable = VectorDrawableCompat.create(resources, drawableRes, null)
+        ?: GradientDrawable().apply { shape = GradientDrawable.RECTANGLE; setColor(Color.WHITE) }
+
+fun Context.getFileSizeInBytes(uri: Uri): Long = contentResolver.query(uri, null, null, null, null)?.use {
+    val sizeIndex = it.getColumnIndex(OpenableColumns.SIZE)
+    it.moveToFirst()
+    it.getLong(sizeIndex)
+} ?: 0
+
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun Context.createBitmapFromDrawable(@DrawableRes drawableId: Int, biggestSidePixelSize: Int = -1): Bitmap = when (val drawable = ContextCompat.getDrawable(this, drawableId)) {
+    is BitmapDrawable -> drawable.bitmap.apply { if (biggestSidePixelSize > 0) resize(biggestSidePixelSize) }
+    is VectorDrawable -> if (biggestSidePixelSize > 0) drawable.toBitmap(biggestSidePixelSize) else drawable.toBitmap()
+    else -> throw IllegalArgumentException("Unsupported drawable type: $drawable")
+}

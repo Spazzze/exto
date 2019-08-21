@@ -5,4 +5,4 @@ package com.github.spazzze.exto.errors
  * @date 03.04.2017
  */
 
-class NotAuthenticatedException : Exception()
+class NotAuthenticatedException(override val message: String = "") : Exception()

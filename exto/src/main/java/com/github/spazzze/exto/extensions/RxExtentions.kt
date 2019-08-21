@@ -9,6 +9,8 @@ import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
+import java.net.InetSocketAddress
+import java.net.Socket
 
 /**
  * @author Space
@@ -18,8 +20,14 @@ import rx.subscriptions.CompositeSubscription
 fun <T> Single<T>.withConnectionStatusCheck(context: Context): Single<T> = Single.just(context.isNetworkAvailable())
         .flatMap { if (it) this else Single.error(NoNetworkException()) }
 
+fun <T> Single<T>.withConnectionStatusCheck(host: String, port: Int): Single<T> = Single.fromCallable { Socket().apply { connect(InetSocketAddress(host, port), 5000) } }
+        .flatMap { it.use {}; this }
+
 fun <T> Observable<T>.withConnectionStatusCheck(context: Context): Observable<T> = Observable.just(context.isNetworkAvailable())
         .flatMap { if (it) this else Observable.error(NoNetworkException()) }
+
+fun <T> Observable<T>.withConnectionStatusCheck(host: String, port: Int): Observable<T> = Observable.fromCallable { Socket().apply { connect(InetSocketAddress(host, port), 5000) } }
+        .flatMap { it.use {}; this }
 
 fun <T> Observable<T>.runOnIoObsOnMain(): Observable<T> = this
         .subscribeOn(Schedulers.io())
@@ -43,7 +51,17 @@ inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -
 
     override fun onCompleted() = Unit
 
-    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass")
+    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass error in subscription")
+}
+
+inline fun <T, reified A : Any> A.silentObserver(crossinline onNextAction: (T) -> Unit,
+                                                 crossinline onCompleteAction: () -> Unit) = object : Observer<T> {
+
+    override fun onNext(t: T) = onNextAction(t)
+
+    override fun onCompleted() = onCompleteAction()
+
+    override fun onError(e: Throwable) = e.reportToDeveloper("$javaClass error in subscription")
 }
 
 inline fun <T, reified A : Any> A.reportingObserver(crossinline onErrorAction: (Throwable) -> Unit) = object : Observer<T> {
@@ -53,7 +71,7 @@ inline fun <T, reified A : Any> A.reportingObserver(crossinline onErrorAction: (
     override fun onCompleted() = Unit
 
     override fun onError(e: Throwable) {
-        e.reportToDeveloper("$javaClass")
+        e.reportToDeveloper("$javaClass error in subscription")
         onErrorAction(e)
     }
 }
@@ -65,7 +83,20 @@ inline fun <T, reified A : Any> A.reportingObserver(crossinline onNextAction: (T
     override fun onCompleted() = Unit
 
     override fun onError(e: Throwable) {
-        e.reportToDeveloper("$javaClass")
+        e.reportToDeveloper("$javaClass error in subscription")
+        onErrorAction(e)
+    }
+}
+
+inline fun <T, reified A : Any> A.reportingObserver(crossinline onNextAction: (T) -> Unit,
+                                                    crossinline onErrorAction: (Throwable) -> Unit,
+                                                    crossinline onCompleteAction: () -> Unit) = object : Observer<T> {
+    override fun onNext(t: T) = onNextAction(t)
+
+    override fun onCompleted() = onCompleteAction()
+
+    override fun onError(e: Throwable) {
+        e.reportToDeveloper("$javaClass error in subscription")
         onErrorAction(e)
     }
 }

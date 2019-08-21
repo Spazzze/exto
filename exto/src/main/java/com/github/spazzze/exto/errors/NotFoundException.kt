@@ -5,4 +5,4 @@ package com.github.spazzze.exto.errors
  * @date 10.04.2017
  */
 
-class NotFoundException : Exception()
+class NotFoundException(override val message: String = "") : Exception()

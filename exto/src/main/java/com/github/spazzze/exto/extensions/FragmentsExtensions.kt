@@ -1,42 +1,55 @@
 package com.github.spazzze.exto.extensions
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.MediaStore
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import org.funktionale.option.Option
 import org.funktionale.option.toOption
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.Serializable
+
 
 /**
  * @author Space
  * @date 29.01.2017
  */
 
-fun Fragment.takePicture(file: File, intentId: Int) = try {
-    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
-    startActivityForResult(takePictureIntent, intentId)
-} catch (e: Exception) {
-    Timber.e(e, "takePhoto intent error: ")
-}
+fun Fragment.mailTo(url: String) = activity?.mailTo(url) ?: false
 
-fun Fragment.chooseFromGallery(@StringRes titleRes: Int, intentId: Int) = try {
-    val takeFromGalleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-    takeFromGalleryIntent.type = "image/*"
-    startActivityForResult(Intent.createChooser(takeFromGalleryIntent, getString(titleRes)), intentId)
-} catch (e: Exception) {
-    Timber.e(e, "chooseFromGallery intent error: ")
-}
+fun Fragment.callTo(url: String) = activity?.callTo(url)
+
+fun Fragment.takePicture(file: File, intentId: Int) = activity?.takePicture(file, intentId, this)
+
+fun Fragment.takeVideo(file: File, intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true) =
+        activity?.takeVideo(file, intentId, maximumDurationInSeconds, isHighQuality, this)
+
+fun Fragment.takeVideo(intentId: Int, maximumDurationInSeconds: Int = 0, isHighQuality: Boolean = true) =
+        activity?.takeVideo(intentId, maximumDurationInSeconds, isHighQuality, this)
+
+fun Fragment.chooseImageContent(@StringRes titleRes: Int, intentId: Int) = activity?.chooseImageContent(titleRes, intentId, this)
+
+fun Fragment.pickImage(@StringRes titleRes: Int, intentId: Int) = activity?.pickImage(titleRes, intentId, this)
+
+fun Fragment.chooseAudioContent(@StringRes titleRes: Int, intentId: Int) = activity?.chooseAudioContent(titleRes, intentId, this)
+
+fun Fragment.pickAudio(@StringRes titleRes: Int, intentId: Int) = activity?.pickAudio(titleRes, intentId, this)
+
+fun Fragment.chooseMp3AudioContent(@StringRes titleRes: Int, intentId: Int) = activity?.chooseMp3AudioContent(titleRes, intentId, this)
+
+fun Fragment.pickMp3Audio(@StringRes titleRes: Int, intentId: Int) = activity?.pickMp3Audio(titleRes, intentId, this)
+
+fun Fragment.chooseVideoContent(@StringRes titleRes: Int, intentId: Int) = activity?.chooseVideoContent(titleRes, intentId, this)
+
+fun Fragment.pickVideo(@StringRes titleRes: Int, intentId: Int) = activity?.pickVideo(titleRes, intentId, this)
+
+fun Fragment.chooseMp4VideoContent(@StringRes titleRes: Int, intentId: Int) = activity?.chooseMp4VideoContent(titleRes, intentId, this)
+
+fun Fragment.pickMp4Video(@StringRes titleRes: Int, intentId: Int) = activity?.pickMp4Video(titleRes, intentId, this)
 
 inline fun <T : Fragment> FragmentManager.replaceFragment(containerId: Int, addToBackStack: Boolean,
                                                           tag: String?, createNewFragment: () -> T) =
@@ -56,7 +69,11 @@ fun <T : Fragment> FragmentManager.add(fragment: T, containerId: Int, addToBackS
 
 fun FragmentManager.clearBackStack(): Boolean {
     while (backStackEntryCount != 0) {
-        popBackStackImmediate()
+        try {
+            popBackStackImmediate()
+        } catch (e: Exception) {
+            popBackStack()
+        }
     }
     return true
 }
