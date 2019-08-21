@@ -1,13 +1,17 @@
 package com.github.spazzze.exto.databinding.interfaces
 
+import android.databinding.ObservableInt
+
 /**
  * @author Space
  * @date 18.08.2019
  */
 
-interface IRecyclerPageBindingAdapter<I : IRecyclerPageItemViewModel> : IRecyclerBindingAdapter<I> {
+interface IRecyclerPageBindingAdapter<I : IRecyclerItemViewModel> : IRecyclerBindingAdapter<I> {
 
-    fun addProgressItem(item: I)
+    val progressItemIndex: ObservableInt
+
+    fun addProgressItem()
 
     fun removeProgressItem(): Boolean
 }

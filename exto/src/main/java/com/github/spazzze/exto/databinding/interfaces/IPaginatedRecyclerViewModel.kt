@@ -10,7 +10,7 @@ import rx.Single
  * @date 18.08.2019
  */
 
-interface IPaginatedRecyclerViewModel<I : IRecyclerPageItemViewModel> : IRecyclerViewModel<I> {
+interface IPaginatedRecyclerViewModel<I : IRecyclerItemViewModel> : IRecyclerViewModel<I> {
 
     var currentPageOffset: Int
 
