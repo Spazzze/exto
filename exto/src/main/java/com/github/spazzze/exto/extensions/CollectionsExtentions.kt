@@ -6,22 +6,20 @@ package com.github.spazzze.exto.extensions
  */
 
 @Synchronized
-fun <T> MutableCollection<T>.replaceAllBy(list: List<T>) =
-        if (list != this) {
-            clear()
-            if (list.isNotEmpty()) addAll(list) else true
-        } else false
+fun <T> MutableCollection<T>.replaceAllBy(list: List<T>): Boolean = if (list == this) false else with(this) {
+    val isCleared = removeAll { true }
+    if (list.isNotEmpty()) addAll(list) else isCleared
+}
 
 @Synchronized
-inline fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(destination: C, transform: (T) -> R): Boolean =
-        destination.replaceAllBy(this.mapTo(mutableListOf()) { transform(it) })
+fun <T, R, C : MutableCollection<in R>> Iterable<T>.mapToWithReplace(destination: C, transform: (T) -> R): Boolean =
+        destination.replaceAllBy(mapTo(mutableListOf()) { transform(it) })
 
 @Synchronized
-fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) {
-    if (list != this.values) {
-        clear()
-        list.forEach { this[transform(it)] = it }
-    }
+fun <T, V> MutableMap<T, V>.replaceAllBy(list: List<V>, transform: (V) -> T) = if (list == values) false else {
+    clear()
+    list.forEach { this[transform(it)] = it }
+    true
 }
 
 @Synchronized

@@ -25,9 +25,13 @@ fun <T, C : ObservableArrayList<in T>> C.onChange(action: C.() -> Unit) = apply 
     })
 }
 
-fun <K, V, C : ObservableArrayMap<K, V>> C.onChange(action: C.() -> Unit) = apply {
+fun <K, V, C : ObservableArrayMap<K, V>> C.onChange(action: C.(K?) -> Unit) = apply {
     addOnMapChangedCallback(object : ObservableMap.OnMapChangedCallback<C, K, V>() {
-        override fun onMapChanged(p0: C, p1: K) = p0.action()
+        override fun onMapChanged(sender: C, key: K?) = sender.action(try {
+            key
+        } catch (e: Exception) {
+            null
+        })
     })
 }
 
