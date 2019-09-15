@@ -2,8 +2,8 @@ package com.github.spazzze.exto.databinding.interfaces
 
 import android.databinding.ObservableBoolean
 import com.github.spazzze.exto.databinding.abs.RecyclerViewEndlessOnScrollListener
-import rx.Observable
-import rx.Single
+import io.reactivex.Observable
+import io.reactivex.Single
 
 /**
  * @author Space
@@ -30,7 +30,7 @@ interface IPaginatedRecyclerViewModel<I : IRecyclerItemViewModel> : IRecyclerVie
 
     fun <E : Any, T : List<E>> Observable<T>.withPageLoading(): Observable<T> = this
             .doOnSubscribe { isPageLoading.set(true) }
-            .doOnCompleted { if (items.size >= currentPageOffset) currentPageOffset += items.size - currentPageOffset else currentPageOffset = 0 }
+            .doOnComplete { if (items.size >= currentPageOffset) currentPageOffset += items.size - currentPageOffset else currentPageOffset = 0 }
             .doAfterTerminate { isPageLoading.set(false) }
 
     fun <T> Single<T>.withPageProgress(): Single<T> = this

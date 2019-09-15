@@ -1,11 +1,11 @@
 package com.github.spazzze.exto.network
 
 import com.github.spazzze.exto.extensions.asRetrofitException
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import rx.Single
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.lang.reflect.Type
 
 /**
@@ -14,7 +14,7 @@ import java.lang.reflect.Type
  */
 
 @Suppress("UNCHECKED_CAST")
-class RxErrorHandlingCallAdapterFactory(private val original: RxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create()) : CallAdapter.Factory() {
+class RxErrorHandlingCallAdapterFactory(private val original: RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()) : CallAdapter.Factory() {
 
     override fun get(returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit): CallAdapter<*, *>? =
             original.get(returnType, annotations, retrofit)?.let { RxCallAdapterWrapper(retrofit, it) }

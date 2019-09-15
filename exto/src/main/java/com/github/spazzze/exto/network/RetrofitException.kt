@@ -16,7 +16,7 @@ class RetrofitException private constructor(exception: Throwable,
                                             val retrofit: Retrofit,
                                             val response: Response<*>? = null) : RuntimeException(exception) {
 
-//    val apiResponse: RestApiResponse? by lazy { if (kind == Kind.HTTP) getErrorBodyAs(RestApiResponse::class.java) else null }
+//    val apiResponse: RestApiError? by lazy { if (kind == Kind.HTTP) getErrorBodyAs(RestApiError::class.java) else null }
 
     enum class Kind {
         NETWORK,
@@ -32,7 +32,7 @@ class RetrofitException private constructor(exception: Throwable,
 
     companion object {
         fun httpError(exception: Throwable, response: Response<*>, retrofit: Retrofit) = RetrofitException(exception, Kind.HTTP, retrofit, response)
-        fun networkError(exception: IOException, retrofit: Retrofit) = RetrofitException(exception, Kind.NETWORK, retrofit)
+        fun networkError(exception: Throwable, retrofit: Retrofit) = RetrofitException(exception, Kind.NETWORK, retrofit)
         fun unexpectedError(exception: Throwable, retrofit: Retrofit) = RetrofitException(exception, retrofit = retrofit)
     }
 }

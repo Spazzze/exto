@@ -3,9 +3,9 @@ package com.github.spazzze.exto.databinding.interfaces
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.databinding.ObservableList
-import rx.Observable
-import rx.Single
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 
 /**
  * @author Space
@@ -16,7 +16,7 @@ interface IRecyclerViewModel<I : IRecyclerItemViewModel> : IViewModelWithProgres
 
     val isRefreshing: ObservableBoolean
 
-    val subscription: CompositeSubscription
+    val subscription: CompositeDisposable
 
     val items: ObservableList<I>
 
@@ -38,7 +38,7 @@ interface IRecyclerViewModel<I : IRecyclerItemViewModel> : IViewModelWithProgres
 
     fun <T> Observable<T>.withUiUpdate(): Observable<T> = this
             .doOnSubscribe { noContentTextVisibility.set(false) }
-            .doOnCompleted { noContentText.set(defaultNoContentText) }
+            .doOnComplete { noContentText.set(defaultNoContentText) }
             .doOnTerminate { updateUI() }
 
     fun <T> Observable<T>.withRefresh(): Observable<T> = this

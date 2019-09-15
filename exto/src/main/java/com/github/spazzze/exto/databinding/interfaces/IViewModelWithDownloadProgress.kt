@@ -3,11 +3,11 @@ package com.github.spazzze.exto.databinding.interfaces
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableInt
 import com.github.spazzze.exto.network.progress.SimpleProgressListenerImpl
-import rx.Observable
-import rx.Single
-import rx.Subscription
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
 /**
  * @author Space
@@ -16,9 +16,9 @@ import rx.subscriptions.CompositeSubscription
 
 interface IViewModelWithDownloadProgress : IViewModelWithProgress {
 
-    var downloadSubscription: Subscription?
+    var downloadSubscription: Disposable?
 
-    val compositeSubscription: CompositeSubscription
+    val compositeSubscription: CompositeDisposable
 
     val isDownloadProgressVisible: ObservableBoolean
 
@@ -26,15 +26,15 @@ interface IViewModelWithDownloadProgress : IViewModelWithProgress {
 
     val progressListener: SimpleProgressListenerImpl
 
-    fun startSingleDownload(s: Subscription) {
+    fun startSingleDownload(s: Disposable) {
         downloadSubscription = s
-        compositeSubscription.add(downloadSubscription)
+        downloadSubscription?.run { compositeSubscription.add(this) }
     }
 
     fun abortSingleDownload() = downloadSubscription?.apply {
         downloadProgress.set(0)
         compositeSubscription.remove(this)
-        unsubscribe()
+        dispose()
     }
 
     fun hideDownloadProgress() = isDownloadProgressVisible.set(false).apply { downloadProgress.set(0) }

@@ -3,11 +3,11 @@ package com.github.spazzze.exto.network
 import android.support.annotation.Keep
 import com.github.spazzze.exto.network.progress.ProgressResponseBody
 import com.github.spazzze.exto.network.progress.RequestProgressListener
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import rx.Observable
-import rx.schedulers.Schedulers
 
 /**
  * @author elena
