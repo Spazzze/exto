@@ -29,3 +29,11 @@ fun <T, V> MutableMap<T, V>.removeWithAction(key: T, action: (V) -> Unit) = remo
 inline fun <T> Collection<T>.forEachReversed(action: (T) -> Unit) {
     for (n in size - 1 downTo 0) action(elementAt(n))
 }
+
+@Synchronized
+fun <T> MutableCollection<T>.replaceFromIndexBy(list: List<T>, startingIndex: Int = 0): Boolean = if (list == this || list.isEmpty()) false else with(this) {
+    val firstList = if (startingIndex > 0) toList().slice(0 until startingIndex) else listOf()
+    val secondList = if (size > list.size) toList().slice((startingIndex + list.lastIndex) until size) else listOf()
+    removeAll { true }
+    addAll(firstList + list + secondList)
+}
