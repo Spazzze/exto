@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerBindingAdapter
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerBindingHelper
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerItemViewModel
-import com.github.spazzze.exto.extensions.replaceAllBy
 
 /**
  * @author Space
@@ -19,7 +18,7 @@ import com.github.spazzze.exto.extensions.replaceAllBy
  */
 
 open class RecyclerBindingAdapter<I : IRecyclerItemViewModel>(override val bindingHelper: IRecyclerBindingHelper<I>,
-                                                              override val items: ObservableList<I> = ObservableArrayList()) :
+                                                              override var items: ObservableList<I> = ObservableArrayList()) :
         RecyclerView.Adapter<RecyclerBindingAdapter.BindingHolder>(), IRecyclerBindingAdapter<I> {
 
     private val diffUtilCallback = DiffUtilCallback<I>()
@@ -36,8 +35,10 @@ open class RecyclerBindingAdapter<I : IRecyclerItemViewModel>(override val bindi
 
     override fun getItemCount() = items.size
 
-    override fun setItems(newItems: List<I>) = synchronized(items) {
-        if (items.replaceAllBy(newItems)) dispatchUpdates(newItems).run { true } else false
+    override fun setItems(newItems: List<I>) = with(ObservableArrayList<I>().apply { addAll(newItems) }) {
+        synchronized(items) { items = this }
+        dispatchUpdates(newItems)
+        true
     }
 
     private fun dispatchUpdates(newItems: List<I>) =
