@@ -104,6 +104,9 @@ dependencies {
 
 apply plugin: 'com.github.dcendents.android-maven'
 
+//do not remove its needed for maven
+group = publishedGroupId
+
 install {
     repositories.mavenInstaller {
         // This generates POM.xml with proper parameters
