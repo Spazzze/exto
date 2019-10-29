@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.network.progress
 
-import android.databinding.ObservableInt
+import androidx.databinding.ObservableInt
 
 /**
  * @author Space

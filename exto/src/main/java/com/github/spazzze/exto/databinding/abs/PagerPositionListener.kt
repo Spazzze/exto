@@ -1,7 +1,7 @@
 package com.github.spazzze.exto.databinding.abs
 
-import android.databinding.ObservableInt
-import android.support.v4.view.ViewPager
+import androidx.databinding.ObservableInt
+import androidx.viewpager.widget.ViewPager
 
 /**
  * @author Space

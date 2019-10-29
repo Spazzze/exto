@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.databinding.interfaces
 
-import android.databinding.ObservableInt
+import androidx.databinding.ObservableInt
 import com.github.spazzze.exto.databinding.abs.PagerPositionListener
 
 /**

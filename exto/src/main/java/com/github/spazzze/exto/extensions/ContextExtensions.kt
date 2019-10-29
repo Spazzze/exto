@@ -1,5 +1,6 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.Context.WINDOW_SERVICE
@@ -19,15 +20,15 @@ import android.os.Build
 import android.os.Handler
 import android.provider.OpenableColumns
 import android.provider.Settings
-import android.support.annotation.DimenRes
-import android.support.annotation.DrawableRes
-import android.support.graphics.drawable.VectorDrawableCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.FileProvider
-import android.support.v4.content.pm.PackageInfoCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.WindowManager
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.content.pm.PackageInfoCompat
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import java.io.File
 
 
@@ -71,6 +72,7 @@ fun Context.getThemeResource(resourceId: Int) = TypedValue().run {
     data
 }
 
+@SuppressLint("MissingPermission")
 fun Context.isNetworkAvailable() = try {
     (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
             ?.activeNetworkInfo?.isConnectedOrConnecting

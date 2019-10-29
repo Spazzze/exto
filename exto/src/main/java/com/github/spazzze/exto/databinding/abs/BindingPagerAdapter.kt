@@ -1,9 +1,8 @@
 package com.github.spazzze.exto.databinding.abs
 
-import android.databinding.ObservableArrayList
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.databinding.ObservableArrayList
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.github.spazzze.exto.extensions.onChange
 import com.github.spazzze.exto.extensions.replaceAllBy
 
@@ -12,7 +11,7 @@ import com.github.spazzze.exto.extensions.replaceAllBy
  * @date 24.12.2016
  */
 
-abstract class BindingPagerAdapter<T : Any>(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+abstract class BindingPagerAdapter<T : Any>(fm: FragmentManager) : androidx.fragment.app.FragmentStatePagerAdapter(fm) {
 
     @Volatile
     private var items = ObservableArrayList<T>().onChange { notifyDataSetChanged() }

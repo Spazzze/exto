@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.view.interfaces
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 
 interface IAlerter : IView {
 

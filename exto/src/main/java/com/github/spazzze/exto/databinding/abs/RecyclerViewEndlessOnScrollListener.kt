@@ -1,9 +1,9 @@
 package com.github.spazzze.exto.databinding.abs
 
-import android.databinding.ObservableBoolean
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.ObservableBoolean
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * @author Space

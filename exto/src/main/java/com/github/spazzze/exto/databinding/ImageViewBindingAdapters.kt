@@ -1,13 +1,13 @@
 package com.github.spazzze.exto.databinding
 
-import android.databinding.BindingAdapter
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.DrawableRes
-import android.support.graphics.drawable.VectorDrawableCompat
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
+import androidx.databinding.BindingAdapter
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.bumptech.glide.request.RequestListener
 import com.github.spazzze.exto.extensions.load
 import com.github.spazzze.exto.extensions.loadAsBitmap

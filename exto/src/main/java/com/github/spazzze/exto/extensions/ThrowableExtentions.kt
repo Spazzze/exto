@@ -10,21 +10,24 @@ import retrofit2.Retrofit
 import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import java.util.concurrent.TimeoutException
 
 /**
  * @author Space
  * @date 29.01.2017
  */
 
-fun Throwable.asRetrofitException(retrofit: Retrofit) = when (this) {
-    is HttpException -> RetrofitException.httpError(this, this.response(), retrofit)
-    is IOException -> RetrofitException.networkError(this, retrofit)
+fun Throwable.asRetrofitException(retrofit: Retrofit): RetrofitException = when {
+    this is SocketTimeoutException || this is TimeoutException || this is UnknownHostException -> RetrofitException.networkError(this, retrofit)
+    this is HttpException && response() != null -> RetrofitException.httpError(this, response()!!, retrofit)
+    this is IOException -> RetrofitException.networkError(this, retrofit)
     else -> RetrofitException.unexpectedError(this, retrofit)
 }
 
-fun Throwable.networkErrorMsgId(): Int = when {
-    this is NoNetworkException -> R.string.error_no_internet
-    this is SocketTimeoutException -> R.string.error_no_internet
+fun Throwable.networkErrorMsgId(): Int = when (this) {
+    is NoNetworkException -> R.string.error_no_internet
+    is SocketTimeoutException -> R.string.error_no_internet
     else -> R.string.error_unknown_server_error
 }
 

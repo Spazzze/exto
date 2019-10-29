@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.extensions
 
-import android.databinding.*
+import androidx.databinding.*
 
 /**
  * @author elena

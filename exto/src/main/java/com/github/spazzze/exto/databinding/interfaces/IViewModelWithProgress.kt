@@ -1,11 +1,10 @@
 package com.github.spazzze.exto.databinding.interfaces
 
-import android.databinding.ObservableBoolean
+import androidx.databinding.ObservableBoolean
 import com.github.spazzze.exto.view.interfaces.IProgressHandler
-import rx.Observable
-import rx.Single
-import rx.subjects.PublishSubject
-
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.subjects.PublishSubject
 /**
  * @author Space
  * @date 27.02.2017

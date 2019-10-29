@@ -4,10 +4,10 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.support.annotation.AnimRes
-import android.support.annotation.DrawableRes
-import android.support.design.widget.FloatingActionButton
-import android.support.graphics.drawable.VectorDrawableCompat
+import androidx.annotation.AnimRes
+import androidx.annotation.DrawableRes
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils

@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.network.progress
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import okio.*
@@ -30,7 +30,7 @@ class ProgressResponseBody(private val responseBody: ResponseBody,
             ?: Okio.buffer(source(responseBody.source())).apply { bufferedSource = this }
 
     private fun source(source: Source) = object : ForwardingSource(source) {
-        internal var totalBytesRead = 0L
+        var totalBytesRead = 0L
 
         @Throws(IOException::class)
         override fun read(sink: Buffer, byteCount: Long): Long {

@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.databinding
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.view.View
 import android.view.animation.Animation
 

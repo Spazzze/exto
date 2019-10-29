@@ -1,12 +1,8 @@
 package com.github.spazzze.exto.databinding
 
-import android.databinding.BindingAdapter
+import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
-import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.AppCompatDrawableManager
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.view.View
@@ -14,6 +10,11 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextSwitcher
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatDrawableManager
+import androidx.databinding.BindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 
 /**
  * @author elena
@@ -82,6 +83,7 @@ fun setBackgroundTint(editText: EditText, @ColorRes color: Int) {
     tintView(editText, color)
 }
 
+@SuppressLint("RestrictedApi")
 private fun tintView(view: View, color: Int) {
     val nd = view.background?.constantState?.newDrawable() ?: return
     nd.colorFilter = AppCompatDrawableManager.getPorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
