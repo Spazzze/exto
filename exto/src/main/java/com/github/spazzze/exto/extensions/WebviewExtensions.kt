@@ -1,19 +1,21 @@
 package com.github.spazzze.exto.extensions
 
+import android.annotation.SuppressLint
 import android.os.Build
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
-import android.support.v4.content.ContextCompat
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 
 /**
  * @author Space
  * @date 21.03.2017
  */
 
+@SuppressLint("SetJavaScriptEnabled")
 fun WebView.init(webViewClient: WebViewClient? = null, webChromeClient: WebChromeClient? = null, noCache: Boolean = true) {
     with(settings) {
         cacheMode = if (noCache) WebSettings.LOAD_NO_CACHE else WebSettings.LOAD_CACHE_ELSE_NETWORK

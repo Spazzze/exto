@@ -1,7 +1,7 @@
 package com.github.spazzze.exto.databinding
 
-import android.databinding.BindingAdapter
-import android.databinding.BindingConversion
+import androidx.databinding.BindingAdapter
+import androidx.databinding.BindingConversion
 import android.view.View
 
 /**

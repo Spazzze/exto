@@ -2,7 +2,7 @@ package com.github.spazzze.exto.network
 
 import android.content.ContentResolver
 import android.net.Uri
-import android.support.annotation.Nullable
+import androidx.annotation.Nullable
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import okio.BufferedSink
@@ -26,6 +26,6 @@ class InputStreamRequestBody(private val contentType: MediaType?,
 
     @Throws(IOException::class)
     override fun writeTo(sink: BufferedSink) {
-        Okio.source(contentResolver.openInputStream(uri)).use(sink::writeAll)
+        contentResolver.openInputStream(uri)?.let { Okio.source(it).use(sink::writeAll) }
     }
 }

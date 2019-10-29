@@ -1,7 +1,7 @@
 package com.github.spazzze.exto.databinding.interfaces
 
-import android.databinding.Observable
-import android.databinding.PropertyChangeRegistry
+import androidx.databinding.Observable
+import androidx.databinding.PropertyChangeRegistry
 import com.github.spazzze.exto.view.interfaces.IView
 
 interface IViewModel : Observable {

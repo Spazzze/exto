@@ -2,10 +2,10 @@ package com.github.spazzze.exto.view.fragments
 
 import android.app.Activity
 import android.content.Context
-import android.support.annotation.CallSuper
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.annotation.CallSuper
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.github.spazzze.exto.extensions.execute
 import com.github.spazzze.exto.view.fragments.interfaces.IBaseFragment
 import com.github.spazzze.exto.view.interfaces.IBaseView

@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.extensions
 
-import android.support.annotation.IntRange
+import androidx.annotation.IntRange
 import java.math.BigDecimal
 import java.math.RoundingMode
 

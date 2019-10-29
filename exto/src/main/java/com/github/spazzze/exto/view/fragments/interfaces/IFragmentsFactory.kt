@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.view.fragments.interfaces
 
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import com.github.spazzze.exto.view.interfaces.INavigableView
 
 /**

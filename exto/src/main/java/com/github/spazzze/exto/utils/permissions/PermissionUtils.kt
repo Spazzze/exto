@@ -6,11 +6,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION
 import android.os.Process
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.AppOpsManagerCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.PermissionChecker
-import android.support.v4.util.SimpleArrayMap
+import androidx.collection.SimpleArrayMap
+import androidx.core.app.ActivityCompat
+import androidx.core.app.AppOpsManagerCompat
+import androidx.core.content.PermissionChecker
+import androidx.fragment.app.Fragment
 import com.github.spazzze.exto.utils.permissions.abs.IPermissionsChecker
 
 /**
@@ -35,19 +35,19 @@ object PermissionUtils : IPermissionsChecker {
 
     override fun verifyPermissions(vararg grantResults: Int): Boolean = when {
         grantResults.isEmpty() -> false
-        else -> (0 until grantResults.size)
+        else -> (grantResults.indices)
                 .map { grantResults[it] }
                 .none { it != PackageManager.PERMISSION_GRANTED }
     }
 
-    override fun hasSelfPermissions(context: Context, vararg permissions: String): Boolean = (0 until permissions.size)
+    override fun hasSelfPermissions(context: Context, vararg permissions: String): Boolean = (permissions.indices)
             .map { permissions[it] }
             .none { permissionExists(it) && !hasSelfPermission(context, it) }
 
-    override fun shouldShowRequestPermissionRationale(activity: Activity, vararg permissions: String): Boolean = (0 until permissions.size)
+    override fun shouldShowRequestPermissionRationale(activity: Activity, vararg permissions: String): Boolean = (permissions.indices)
             .any { ActivityCompat.shouldShowRequestPermissionRationale(activity, permissions[it]) }
 
-    override fun shouldShowRequestPermissionRationale(fragment: Fragment, vararg permissions: String): Boolean = (0 until permissions.size)
+    override fun shouldShowRequestPermissionRationale(fragment: Fragment, vararg permissions: String): Boolean = (permissions.indices)
             .map { permissions[it] }
             .any { fragment.shouldShowRequestPermissionRationale(it) }
 
@@ -58,7 +58,7 @@ object PermissionUtils : IPermissionsChecker {
                 hasSelfPermissionForXiaomi(context, permission)
             } else {
                 try {
-                    PermissionChecker.checkSelfPermission(context, permission) == 0
+                    PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED
                 } catch (var3: RuntimeException) {
                     false
                 }
@@ -66,6 +66,6 @@ object PermissionUtils : IPermissionsChecker {
             }
 
     private fun hasSelfPermissionForXiaomi(context: Context, permission: String): Boolean = AppOpsManagerCompat.permissionToOp(permission)?.let {
-        AppOpsManagerCompat.noteOp(context, it, Process.myUid(), context.packageName) == 0 && PermissionChecker.checkSelfPermission(context, permission) == 0
+        AppOpsManagerCompat.noteOp(context, it, Process.myUid(), context.packageName) == 0 && PermissionChecker.checkSelfPermission(context, permission) == PermissionChecker.PERMISSION_GRANTED
     } ?: true
 }

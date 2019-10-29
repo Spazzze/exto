@@ -1,11 +1,11 @@
 package com.github.spazzze.exto.databinding.abs
 
-import android.databinding.DataBindingUtil
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableInt
-import android.databinding.ObservableList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableInt
+import androidx.databinding.ObservableList
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerBindingHelper
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerItemViewModel
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerPageBindingAdapter
@@ -16,6 +16,7 @@ import com.github.spazzze.exto.databinding.interfaces.IRecyclerPageBindingHelper
  * @date 20.08.2019
  */
 
+@Suppress("UNCHECKED_CAST")
 open class RecyclerPageBindingAdapter<I : IRecyclerItemViewModel, out P : IRecyclerItemViewModel>(
         bindingHelper: IRecyclerBindingHelper<I>,
         private val progressBindingHelper: IRecyclerPageBindingHelper<P> = DefaultRecyclerPageBindingHelperImpl() as IRecyclerPageBindingHelper<P>,

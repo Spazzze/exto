@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.databinding.abs
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerItemViewModel
 import java.util.*
 

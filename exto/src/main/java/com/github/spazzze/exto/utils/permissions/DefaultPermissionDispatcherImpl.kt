@@ -3,7 +3,7 @@ package com.github.spazzze.exto.utils.permissions
 import android.annotation.TargetApi
 import android.app.Activity
 import android.os.Build
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.github.spazzze.exto.extensions.runIf
 import com.github.spazzze.exto.utils.permissions.abs.IExecutablePermissionRequest
 import com.github.spazzze.exto.utils.permissions.abs.IPermissionRequest

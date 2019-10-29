@@ -1,7 +1,7 @@
 package com.github.spazzze.exto.databinding.fields
 
-import android.databinding.ObservableField
-import android.support.annotation.StringRes
+import androidx.databinding.ObservableField
+import androidx.annotation.StringRes
 import com.github.spazzze.exto.databinding.interfaces.IValidable
 
 /**

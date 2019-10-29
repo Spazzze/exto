@@ -1,10 +1,10 @@
 package com.github.spazzze.exto.view.interfaces
 
-import android.support.annotation.StringRes
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.view.Menu
+import androidx.annotation.StringRes
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 
 /**
  * @author Space

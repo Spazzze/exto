@@ -1,10 +1,10 @@
 package com.github.spazzze.exto.databinding
 
-import android.databinding.BindingAdapter
-import android.databinding.ObservableList
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.animation.AnimationUtils
+import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableList
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.spazzze.exto.databinding.abs.DefaultRecyclerPageBindingHelperImpl
 import com.github.spazzze.exto.databinding.abs.RecyclerBindingAdapter
 import com.github.spazzze.exto.databinding.abs.RecyclerPageBindingAdapter

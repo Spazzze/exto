@@ -1,20 +1,20 @@
 package com.github.spazzze.exto.databinding
 
 import android.content.res.ColorStateList
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
-import android.databinding.InverseBindingListener
-import android.databinding.ObservableList
-import android.support.annotation.ColorRes
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.annotation.ColorRes
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
+import androidx.databinding.ObservableList
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.spazzze.exto.R
 import com.github.spazzze.exto.databinding.abs.ArrayDatabindingAdapter
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerItemViewModel
 import com.github.spazzze.exto.extensions.refreshColorState
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * @author Space

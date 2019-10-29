@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.view.viewmodels
 
-import android.databinding.BaseObservable
+import androidx.databinding.BaseObservable
 import com.github.spazzze.exto.databinding.interfaces.IRecyclerItemViewModel
 
 /**

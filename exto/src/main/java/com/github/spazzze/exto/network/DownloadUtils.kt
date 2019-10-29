@@ -1,6 +1,6 @@
 package com.github.spazzze.exto.network
 
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 import com.github.spazzze.exto.network.progress.ProgressResponseBody
 import com.github.spazzze.exto.network.progress.RequestProgressListener
 import io.reactivex.Observable

@@ -1,7 +1,7 @@
 package com.github.spazzze.exto.databinding.interfaces
 
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableInt
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableInt
 import com.github.spazzze.exto.network.progress.SimpleProgressListenerImpl
 import io.reactivex.Observable
 import io.reactivex.Single
