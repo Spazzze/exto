@@ -26,7 +26,7 @@ abstract class BaseFragment<A : IBaseView> : Fragment(), IBaseFragment<A> {
 
     @CallSuper
     @Suppress("DEPRECATION", "UNCHECKED_CAST")
-    override fun onAttach(activity: Activity?) {
+    override fun onAttach(activity: Activity) {
         if (activity is IBaseView) parentActivity = activity as? A
         else throw IllegalArgumentException("Activity has to be instance of IBaseView")
         super.onAttach(activity)
