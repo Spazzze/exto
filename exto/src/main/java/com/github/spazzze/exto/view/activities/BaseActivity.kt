@@ -1,11 +1,11 @@
 package com.github.spazzze.exto.view.activities
 
-import android.app.AlertDialog
 import android.content.Context
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.Toast
 import com.github.spazzze.exto.view.interfaces.IBaseView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
@@ -23,7 +23,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
 
     override fun showDialogAlert(title: String, message: String, onDismiss: () -> Unit) {
         if (message.isBlank()) return
-        with(AlertDialog.Builder(this)) {
+        with(MaterialAlertDialogBuilder(this)) {
             if (title.isNotBlank()) setTitle(title)
             this.setMessage(message)
                     .setCancelable(true)
@@ -35,7 +35,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
     }
 
     override fun showDialogAlert(@StringRes titleId: Int, @StringRes messageId: Int, onDismiss: () -> Unit) =
-            AlertDialog.Builder(this)
+            MaterialAlertDialogBuilder(this)
                     .setTitle(titleId)
                     .setMessage(messageId)
                     .setCancelable(true)
@@ -45,7 +45,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView {
                     .show()
 
     override fun showDialogAlert(@StringRes titleId: Int, @StringRes messageId: Int, onPositive: () -> Unit, onCancel: () -> Unit) =
-            AlertDialog.Builder(this)
+            MaterialAlertDialogBuilder(this)
                     .setTitle(titleId)
                     .setMessage(messageId)
                     .setCancelable(true)
