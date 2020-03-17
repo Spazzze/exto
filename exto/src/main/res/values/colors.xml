@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#54000e</color>
     <color name="colorPrimaryLight">#f96168</color>
 
+    <color name="colorElementsSurface">@color/colorPrimary</color>
     <color name="colorRefreshProgress_1">@color/colorPrimaryLight</color>
     <color name="colorRefreshProgress_2">@color/colorPrimary</color>
     <color name="colorRefreshProgress_3">@color/colorPrimaryDark</color>
