@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 @BindingAdapter("setCustomColors")
 fun setColorSchemeResources(swipeRefreshLayout: SwipeRefreshLayout, set: Boolean) {
     if (!set) return
+    swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.colorElementsSurface)
     swipeRefreshLayout.setColorSchemeResources(
             R.color.colorRefreshProgress_1,
             R.color.colorRefreshProgress_2,
