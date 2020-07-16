@@ -11,9 +11,9 @@ import kotlin.reflect.KProperty
  * @date 29.01.2017
  */
 
-class Preference<T>(private val key: String,
-                    private val default: T,
-                    private val context: Context) : ReadWriteProperty<Any?, T> {
+class Preference<T>(val key: String,
+                    val default: T,
+                    val context: Context) : ReadWriteProperty<Any?, T> {
 
     private val prefs: SharedPreferences by lazy { context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE) }
 
